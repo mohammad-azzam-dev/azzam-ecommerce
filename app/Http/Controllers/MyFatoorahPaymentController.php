@@ -101,7 +101,7 @@ class MyFatoorahPaymentController extends Controller
             $myFatoorahPayment = new MyFatoorahPaymentStatus($this->myFatoorahConfig);
             $data = $myFatoorahPayment->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-            $order = Order::where('transaction_reference', $payment_id)->first();
+            $order = Order::where('transaction_reference', $payment_id)->firstOrFail();
 
             if ($data->InvoiceStatus == 'Paid') {
                 DB::table('orders')
