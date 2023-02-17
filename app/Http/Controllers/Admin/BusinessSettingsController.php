@@ -295,6 +295,7 @@ class BusinessSettingsController extends Controller
                     'value' => json_encode([
                         'status' => $request['status'],
                         'api_key' => $request['api_key'],
+                        'country_code' => $request['country_code'],
                         'is_test' => $request['is_test'],
                     ]),
                 ]
