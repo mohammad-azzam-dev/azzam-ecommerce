@@ -96,26 +96,46 @@ class MyFatoorahPaymentController extends Controller
     public function callback()
     {
         try {
-            $myFatoorahPayment = new MyFatoorahPaymentStatus($this->myFatoorahConfig);
+            $payment_id = request('paymentId');
 
+            $myFatoorahPayment = new MyFatoorahPaymentStatus($this->myFatoorahConfig);
             $data = $myFatoorahPayment->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-            $msg = '';
+            $order = Order::where('transaction_reference', $payment_id)->first();
+
             if ($data->InvoiceStatus == 'Paid') {
-                return redirect()->route('payment-success');
+                DB::table('orders')
+                    ->where('transaction_reference', $payment_id)
+                    ->update(['order_status' => 'confirmed', 'payment_status' => 'paid', 'transaction_reference' => $payment_id]);
 
-                $msg = 'Invoice is paid.';
-            } else if ($data->InvoiceStatus == 'Failed') {
-                return redirect()->route('payment-fail');
+                $fcm_token = $order->customer->cm_firebase_token;
+                $value = Helpers::order_status_update_message('confirmed');
+                if ($value) {
+                    $data = [
+                        'title' => 'Order',
+                        'description' => $value,
+                        'order_id' => $order['id'],
+                        'image' => '',
+                    ];
+                    Helpers::send_push_notif_to_device($fcm_token, $data);
+                }
 
-                $msg = 'Invoice is not paid due to ' . $data->InvoiceError;
-            } else if ($data->InvoiceStatus == 'Expired') {
-                return redirect()->route('payment-fail');
 
-                $msg = 'Invoice is expired.';
+                if ($order->callback != null) {
+                    return redirect($order->callback . '/success');
+                } else {
+                    return \redirect()->route('payment-success');
+                }
+            } else {
+                // $data->InvoiceStatus == 'Failed'
+                // $data->InvoiceStatus == 'Expired'
+
+                if ($order->callback != null) {
+                    return redirect($order->callback . '/fail');
+                } else {
+                    return \redirect()->route('payment-fail');
+                }
             }
-
-            return response()->json(['IsSuccess' => 'true', 'Message' => $msg, 'Data' => $data]);
         } catch (\Exception $e) {
             return response()->json(['IsSuccess' => 'false', 'Message' => $e->getMessage()]);
         }
