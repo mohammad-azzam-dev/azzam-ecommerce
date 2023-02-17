@@ -21,7 +21,7 @@
                             <td scope="row">
                                 <img height="35" style="border-radius: 5px"
                                      src="{{asset('storage/app/public/product')}}/{{ json_decode($product['image'])[0] }}"
-                                     onerror="this.src='{{asset('assets/admin/img/160x160/img2.jpg')}}'"
+                                     onerror="this.src='{{asset('public/assets/admin/img/160x160/img2.jpg')}}'"
                                      alt="{{$product->name}} image">
                                 <span class="ml-2">
                                 {{isset($product)?substr($product->name,0,30) . (strlen($product->name)>20?'...':''):'not exists'}}

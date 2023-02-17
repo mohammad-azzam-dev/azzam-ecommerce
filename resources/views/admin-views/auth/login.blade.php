@@ -13,11 +13,11 @@
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{asset('assets/admin')}}/css/vendor.min.css">
-    <link rel="stylesheet" href="{{asset('assets/admin')}}/vendor/icon-set/style.css">
+    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/vendor.min.css">
+    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/vendor/icon-set/style.css">
     <!-- CSS Front Template -->
-    <link rel="stylesheet" href="{{asset('assets/admin')}}/css/theme.minc619.css?v=1.0">
-    <link rel="stylesheet" href="{{asset('assets/admin')}}/css/toastr.css">
+    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/theme.minc619.css?v=1.0">
+    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/toastr.css">
 
     <style>
         .input-icons i {
@@ -52,7 +52,7 @@
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main" class="main">
     <div class="position-fixed top-0 right-0 left-0 bg-img-hero"
-         style="height: 100%; background-image: url({{asset('assets/admin')}}/svg/components/login-background.png);">
+         style="height: 100%; background-image: url({{asset('public/assets/admin')}}/svg/components/login-background.png);">
     </div>
 
     <!-- Content -->
@@ -60,7 +60,7 @@
         <label class="badge badge-soft-success float-right" style="z-index: 9;position: absolute;right: 0.5rem;top: 0.5rem;">{{ translate('Software version') }} : {{ env('SOFTWARE_VERSION') }}</label>
         <a class="d-flex justify-content-center mb-5" href="javascript:">
             <img class="z-index-2"
-                 onerror="this.src='{{asset('assets/admin/img/160x160/img2.jpg')}}'"
+                 onerror="this.src='{{asset('public/assets/admin/img/160x160/img2.jpg')}}'"
                  src="{{asset('storage/app/public/ecommerce')}}/{{\App\Model\BusinessSetting::where(['key'=>'logo'])->first()->value??''}}"
                  alt="Image Description" style="width: 300px;">
         </a>
@@ -87,7 +87,7 @@
                                 {{--<a class="btn btn-lg btn-block btn-white mb-4" href="#">
                                     <span class="d-flex justify-content-center align-items-center">
                                       <img class="avatar avatar-xss mr-2"
-                                           src="{{asset('assets/admin')}}/svg/brands/google.svg" alt="Image Description">
+                                           src="{{asset('public/assets/admin')}}/svg/brands/google.svg" alt="Image Description">
                                       Sign in with Google
                                     </span>
                                 </a>
@@ -195,11 +195,11 @@
 
 
 <!-- JS Implementing Plugins -->
-<script src="{{asset('assets/admin')}}/js/vendor.min.js"></script>
+<script src="{{asset('public/assets/admin')}}/js/vendor.min.js"></script>
 
 <!-- JS Front -->
-<script src="{{asset('assets/admin')}}/js/theme.min.js"></script>
-<script src="{{asset('assets/admin')}}/js/toastr.js"></script>
+<script src="{{asset('public/assets/admin')}}/js/theme.min.js"></script>
+<script src="{{asset('public/assets/admin')}}/js/toastr.js"></script>
 {!! Toastr::message() !!}
 
 @if ($errors->any())
@@ -277,7 +277,7 @@
 @endif
 <!-- IE Support -->
 <script>
-    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{{asset('assets/admin')}}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
+    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{{asset('public/assets/admin')}}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
 </script>
 </body>
 </html>

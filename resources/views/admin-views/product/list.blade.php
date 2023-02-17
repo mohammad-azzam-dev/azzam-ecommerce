@@ -81,7 +81,7 @@
                                             <img
                                                 src="{{asset('storage/app/public/product')}}/{{json_decode($product['image'],true)[0]}}"
                                                 style="width: 100px"
-                                                onerror="this.src='{{asset('assets/admin/img/160x160/img2.jpg')}}'">
+                                                onerror="this.src='{{asset('public/assets/admin/img/160x160/img2.jpg')}}'">
                                         </div>
                                     </td>
                                     <td>

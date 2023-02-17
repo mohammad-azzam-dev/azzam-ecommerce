@@ -111,7 +111,7 @@
                         </div>
                         <div class="text-center mt-3">
                             <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer"
-                                 src="{{asset('assets/admin/img/400x400/img2.jpg')}}" alt="delivery-man image"/>
+                                 src="{{asset('public/assets/admin/img/400x400/img2.jpg')}}" alt="delivery-man image"/>
                         </div>
                     </div>
 
@@ -142,7 +142,7 @@
         });
     </script>
 
-    <script src="{{asset('assets/admin/js/spartan-multi-image-picker.js')}}"></script>
+    <script src="{{asset('public/assets/admin/js/spartan-multi-image-picker.js')}}"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -153,7 +153,7 @@
                 groupClassName: 'col-2',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset('assets/admin/img/400x400/img2.jpg')}}',
+                    image: '{{asset('public/assets/admin/img/400x400/img2.jpg')}}',
                     width: '100%'
                 },
                 dropFileLabel: "Drop Here",
