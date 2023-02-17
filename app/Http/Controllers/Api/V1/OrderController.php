@@ -53,7 +53,8 @@ class OrderController extends Controller
                 }
             } else {
                 if ($product['total_stock'] < $c['quantity']) {
-                    $validator->getMessageBag()->add('stock', 'Stock is insufficient! available stock ' . $var['stock']);
+                    // $validator->getMessageBag()->add('stock', 'Stock is insufficient! available stock ' . $var['stock']);
+                    $validator->getMessageBag()->add('stock', 'Stock is insufficient! available stock');
                 }
             }
         }
