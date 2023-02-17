@@ -146,10 +146,10 @@ Route::get('add-currency', function () {
 Route::prefix('payments')->group(function () {
     Route::prefix('myFatoorah')->group(function () {
         Route::post('pay', [MyFatoorahPaymentController::class, 'pay'])->name('payments.myFatoorah.pay');
-        Route::post('callback', [MyFatoorahPaymentController::class, 'callback'])->name('payments.myFatoorah.callback');
+        Route::get('callback', [MyFatoorahPaymentController::class, 'callback'])->name('payments.myFatoorah.callback');
     });
     Route::prefix('knet')->group(function () {
         Route::post('pay', [KnetPaymentController::class, 'pay'])->name('payments.knet.pay');
-        Route::post('callback', [KnetPaymentController::class, 'callback'])->name('payments.knet.callback');
+        Route::get('callback', [KnetPaymentController::class, 'callback'])->name('payments.knet.callback');
     });
 });
