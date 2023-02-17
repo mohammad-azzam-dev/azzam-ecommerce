@@ -47,13 +47,14 @@ class MyFatoorahPaymentController extends Controller
         DB::beginTransaction();
 
         try {
+            $callbackURL = route('payments.myFatoorah.callback');
 
             $postFields = [
                 'NotificationOption' => 'Lnk',
                 'InvoiceValue'       => $order['order_amount'],
                 'CustomerName'       => $order->customer['f_name'],
-                // 'InvoiceValue'       => 20,
-                // 'CustomerName'       => 'Ahmad Antar (Testing)',
+                'CallBackUrl'        => $callbackURL,
+                'ErrorUrl'           => $callbackURL,
             ];
 
             $data = $this->myFatoorah->getInvoiceURL($postFields);
@@ -88,22 +89,22 @@ class MyFatoorahPaymentController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    // public function callback()
-    // {
-    //     try {
-    //         $data = $this->mfObj->getPaymentStatus(request('paymentId'), 'PaymentId');
+    public function callback()
+    {
+        try {
+            $data = $this->myFatoorah->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-    //         if ($data->InvoiceStatus == 'Paid') {
-    //             $msg = 'Invoice is paid.';
-    //         } else if ($data->InvoiceStatus == 'Failed') {
-    //             $msg = 'Invoice is not paid due to ' . $data->InvoiceError;
-    //         } else if ($data->InvoiceStatus == 'Expired') {
-    //             $msg = 'Invoice is expired.';
-    //         }
+            if ($data->InvoiceStatus == 'Paid') {
+                $msg = 'Invoice is paid.';
+            } else if ($data->InvoiceStatus == 'Failed') {
+                $msg = 'Invoice is not paid due to ' . $data->InvoiceError;
+            } else if ($data->InvoiceStatus == 'Expired') {
+                $msg = 'Invoice is expired.';
+            }
 
-    //         return response()->json(['IsSuccess' => 'true', 'Message' => $msg, 'Data' => $data]);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['IsSuccess' => 'false', 'Message' => $e->getMessage()]);
-    //     }
-    // }
+            return response()->json(['IsSuccess' => 'true', 'Message' => $msg, 'Data' => $data]);
+        } catch (\Exception $e) {
+            return response()->json(['IsSuccess' => 'false', 'Message' => $e->getMessage()]);
+        }
+    }
 }
