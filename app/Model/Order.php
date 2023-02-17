@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    protected $guarded = [];
+    
     protected $casts = [
         'order_amount' => 'float',
         'coupon_discount_amount' => 'float',
