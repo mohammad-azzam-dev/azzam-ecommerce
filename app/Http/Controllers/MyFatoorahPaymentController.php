@@ -23,7 +23,7 @@ class MyFatoorahPaymentController extends Controller
         // The "countryCode" key must be one of (KWT, SAU, ARE, QAT, BHR, OMN, JOD, EGY).
 
         $myFatoorahConfig = Helpers::get_business_settings('myFatoorah');
-        
+
         abort_if(!$myFatoorahConfig || !filter_var($myFatoorahConfig['status'], FILTER_VALIDATE_BOOLEAN), 403);
 
         $this->myFatoorahConfig = [
@@ -100,11 +100,18 @@ class MyFatoorahPaymentController extends Controller
 
             $data = $myFatoorahPayment->getPaymentStatus(request('paymentId'), 'PaymentId');
 
+            $msg = '';
             if ($data->InvoiceStatus == 'Paid') {
+                return redirect()->route('payment-success');
+
                 $msg = 'Invoice is paid.';
             } else if ($data->InvoiceStatus == 'Failed') {
+                return redirect()->route('payment-fail');
+
                 $msg = 'Invoice is not paid due to ' . $data->InvoiceError;
             } else if ($data->InvoiceStatus == 'Expired') {
+                return redirect()->route('payment-fail');
+
                 $msg = 'Invoice is expired.';
             }
 
