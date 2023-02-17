@@ -62,7 +62,7 @@ class MyFatoorahPaymentController extends Controller
             $invoiceId   = $data['invoiceId'];
             $paymentLink = $data['invoiceURL'];
 
-            $order->update(['invoice_id' => $invoiceId]);
+            // $order->update(['invoice_id' => $invoiceId]);
 
             DB::commit();
 
