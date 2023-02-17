@@ -100,12 +100,10 @@ class MyFatoorahPaymentController extends Controller
         $myFatoorahPayment = new MyFatoorahPaymentStatus($this->myFatoorahConfig);
         $data = $myFatoorahPayment->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-        $order = Order::where('transaction_reference', $payment_id)->firstOrFail();
+        $order = Order::where('transaction_reference', $data->InvoiceId)->firstOrFail();
 
         if ($data->InvoiceStatus == 'Paid') {
-            DB::table('orders')
-                ->where('transaction_reference', $payment_id)
-                ->update(['order_status' => 'confirmed', 'payment_status' => 'paid', 'transaction_reference' => $payment_id]);
+            $order->update(['order_status' => 'confirmed', 'payment_status' => 'paid', 'transaction_reference' => $payment_id]);
 
             $fcm_token = $order->customer->cm_firebase_token;
             $value = Helpers::order_status_update_message('confirmed');
