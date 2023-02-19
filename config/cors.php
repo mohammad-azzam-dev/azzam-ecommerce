@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*'],
+    'paths' => ['api/*', 'https://binanajd.com', 'binanajd.com'],
 
     'allowed_methods' => ['*'],
 
