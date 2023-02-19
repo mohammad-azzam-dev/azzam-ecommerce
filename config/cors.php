@@ -19,16 +19,16 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://binanajd.com', 'binanajd.com', 'https://binanajd.com/'],
+    'allowed_origins' => ['https://binanajd.com'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['Content-Type', 'Authorization'],
 
     'exposed_headers' => false,
 
     'max_age' => false,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
