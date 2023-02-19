@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'https://binanajd.com', 'binanajd.com'],
+    'paths' => ['api/*'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://binanajd.com', 'binanajd.com', 'https://binanajd.com/'],
 
     'allowed_origins_patterns' => [],
 
