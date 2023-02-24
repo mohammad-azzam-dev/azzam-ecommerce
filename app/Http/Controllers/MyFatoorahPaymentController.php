@@ -46,7 +46,7 @@ class MyFatoorahPaymentController extends Controller
      */
     public function pay(Request $request)
     {
-        $order = Order::with(['details'])->where(['id' => session('order_id')])->firstOrFail();
+        $order = Order::with(['details'])->where(['id' => session('order_id')])->where('payment_status', '!=', 'paid')->firstOrFail();
 
         DB::beginTransaction();
 
@@ -56,11 +56,11 @@ class MyFatoorahPaymentController extends Controller
             $postFields = [
                 'NotificationOption' => 'Lnk',
                 'InvoiceValue'       => $order['order_amount'],
+                'DisplayCurrencyIso' => Helpers::currency_code(),
                 'CustomerName'       => $order->customer['f_name'],
                 'CallBackUrl'        => $callbackURL,
                 'ErrorUrl'           => $callbackURL,
             ];
-            // TODO: Helpers::currency_code()
 
             $data = $this->myFatoorah->getInvoiceURL($postFields);
 

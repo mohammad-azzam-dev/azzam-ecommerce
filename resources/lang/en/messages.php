@@ -625,4 +625,5 @@
   'resource_path' => 'Resource path',
   'country_code' => 'Country code',
   'tap' => 'Tap',
+  'payment_already_made_for_order' => 'Payment has already been made for this order',
 );

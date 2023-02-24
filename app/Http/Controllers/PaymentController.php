@@ -6,16 +6,24 @@ use App\Model\Order;
 use App\User;
 use Illuminate\Http\Request;
 
+use function App\CentralLogics\translate;
+
 class PaymentController extends Controller
 {
     public function payment(Request $request)
     {
+        $order = Order::where(['id' => $request->order_id, 'user_id' => $request['customer_id']])->firstOrFail();
+
+        if ($order->payment_status == 'paid') {
+            die(translate('payment_already_made_for_order'));
+        }
+
         if (session()->has('payment_method') == false) {
             session()->put('payment_method', 'ssl_commerz_payment');
         }
 
         if ($request->has('callback')) {
-            Order::where(['id' => $request->order_id])->update(['callback' => $request['callback']]);
+            $order->update(['callback' => $request['callback']]);
         }
 
         session()->put('customer_id', $request['customer_id']);
@@ -23,7 +31,6 @@ class PaymentController extends Controller
 
         $customer = User::find($request['customer_id']);
 
-        $order = Order::where(['id' => $request->order_id, 'user_id' => $request['customer_id']])->first();
 
         if (isset($customer) && isset($order)) {
             $data = [

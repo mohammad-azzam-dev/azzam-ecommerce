@@ -35,7 +35,7 @@ class TapPaymentController extends Controller
      */
     public function pay(Request $request)
     {
-        $order = Order::with(['details'])->where(['id' => session('order_id')])->firstOrFail();
+        $order = Order::with(['details'])->where(['id' => session('order_id')])->where('payment_status', '!=', 'paid')->firstOrFail();
 
         DB::beginTransaction();
 
