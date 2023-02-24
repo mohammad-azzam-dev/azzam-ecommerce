@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MyFatoorahPaymentController;
+use App\Http\Controllers\TapPaymentController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -148,8 +149,8 @@ Route::prefix('payments')->group(function () {
         Route::post('pay', [MyFatoorahPaymentController::class, 'pay'])->name('payments.myFatoorah.pay');
         Route::get('callback', [MyFatoorahPaymentController::class, 'callback'])->name('payments.myFatoorah.callback');
     });
-    Route::prefix('knet')->group(function () {
-        Route::post('pay', [KnetPaymentController::class, 'pay'])->name('payments.knet.pay');
-        Route::get('callback', [KnetPaymentController::class, 'callback'])->name('payments.knet.callback');
+    Route::prefix('tap')->group(function () {
+        Route::post('pay', [TapPaymentController::class, 'pay'])->name('payments.tap.pay');
+        Route::get('callback', [TapPaymentController::class, 'callback'])->name('payments.tap.callback');
     });
 });

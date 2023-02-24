@@ -195,20 +195,20 @@
                 </div>
             </div>
 
-            {{-- Knet --}}
+            {{-- Tap --}}
             <div class="col-md-6" style="margin-top: 26px!important;">
                 <div class="card">
                     <div class="card-body" style="padding: 20px">
-                        <h5 class="text-center">{{ \App\CentralLogics\translate('knet') }}</h5>
-                        @php($config = \App\CentralLogics\Helpers::get_business_settings('knet'))
+                        <h5 class="text-center">{{ \App\CentralLogics\translate('tap') }}</h5>
+                        @php($config = \App\CentralLogics\Helpers::get_business_settings('tap'))
                         <form
-                            action="{{ env('APP_MODE') != 'demo' ? route('admin.business-settings.payment-method-update', ['knet']) : 'javascript:' }}"
+                            action="{{ env('APP_MODE') != 'demo' ? route('admin.business-settings.payment-method-update', ['tap']) : 'javascript:' }}"
                             method="post">
                             @csrf
                             @if (isset($config))
                                 {{-- Is active? --}}
                                 <div class="form-group mb-2">
-                                    <label class="control-label">{{ \App\CentralLogics\translate('knet') }}</label>
+                                    <label class="control-label">{{ \App\CentralLogics\translate('tap') }}</label>
                                 </div>
                                 <div class="form-group mb-2 mt-2">
                                     <input type="radio" name="status" value="1"
@@ -225,24 +225,14 @@
                                     <br>
                                 </div>
 
-                                {{-- Alias --}}
+                                {{-- API Key --}}
                                 <div class="form-group mb-2">
-                                    <label style="padding-left: 10px">{{ \App\CentralLogics\translate('knet') }}
-                                        {{ \App\CentralLogics\translate('alias') }}
+                                    <label style="padding-left: 10px">{{ \App\CentralLogics\translate('tap') }}
+                                        {{ \App\CentralLogics\translate('api_key') }}
                                     </label>
                                     <br>
-                                    <input type="text" class="form-control" name="alias"
-                                        value="{{ env('APP_MODE') != 'demo' ? $config['alias'] : '' }}">
-                                </div>
-
-                                {{-- Resource Path --}}
-                                <div class="form-group mb-2">
-                                    <label style="padding-left: 10px">{{ \App\CentralLogics\translate('knet') }}
-                                        {{ \App\CentralLogics\translate('resource_path') }}
-                                    </label>
-                                    <br>
-                                    <input type="text" class="form-control" name="resource_path"
-                                        value="{{ env('APP_MODE') != 'demo' ? $config['resource_path'] : '' }}">
+                                    <input type="text" class="form-control" name="api_key"
+                                        value="{{ env('APP_MODE') != 'demo' ? $config['api_key'] : '' }}">
                                 </div>
 
                                 <button type="{{ env('APP_MODE') != 'demo' ? 'submit' : 'button' }}"

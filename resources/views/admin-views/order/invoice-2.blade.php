@@ -8,10 +8,10 @@
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/vendor.min.css">
-    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/vendor/icon-set/style.css">
+    <link rel="stylesheet" href="{{asset('assets/admin')}}/css/vendor.min.css">
+    <link rel="stylesheet" href="{{asset('assets/admin')}}/vendor/icon-set/style.css">
     <!-- CSS Front Template -->
-    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/theme.minc619.css?v=1.0">
+    <link rel="stylesheet" href="{{asset('assets/admin')}}/css/theme.minc619.css?v=1.0">
 </head>
 
 <body class="footer-offset">
@@ -105,7 +105,7 @@
                                     <div class="avatar avatar-xl mr-3">
                                         <img class="img-fluid"
                                              src="{{asset('storage/app/public/product')}}/{{json_decode($detail->product['image'],true)[0]}}"
-                                             onerror="this.src='{{asset('public/assets/admin/img/160x160/img2.jpg')}}'"
+                                             onerror="this.src='{{asset('assets/admin/img/160x160/img2.jpg')}}'"
                                              alt="Image Description">
                                     </div>
 
@@ -207,11 +207,11 @@
     </div>
 </main>
 
-<script src="{{asset('public/assets/admin')}}/js/demo.js"></script>
+<script src="{{asset('assets/admin')}}/js/demo.js"></script>
 <!-- JS Implementing Plugins -->
 <!-- JS Front -->
-<script src="{{asset('public/assets/admin')}}/js/vendor.min.js"></script>
-<script src="{{asset('public/assets/admin')}}/js/theme.min.js"></script>
+<script src="{{asset('assets/admin')}}/js/vendor.min.js"></script>
+<script src="{{asset('assets/admin')}}/js/theme.min.js"></script>
 <script>
     window.print();
 </script>

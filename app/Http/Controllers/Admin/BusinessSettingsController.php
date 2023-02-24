@@ -300,16 +300,15 @@ class BusinessSettingsController extends Controller
                     ]),
                 ]
             );
-        } elseif ($name == 'knet') {
+        } elseif ($name == 'tap') {
             $payment = BusinessSetting::updateOrCreate(
                 [
-                    'key' => 'knet',
+                    'key' => 'tap',
                 ],
                 [
                     'value' => json_encode([
                         'status' => $request['status'],
-                        'alias' => $request['alias'],
-                        'resource_path' => $request['resource_path'], // Absolute Path to where the resource.cgn file is located
+                        'api_key' => $request['api_key'],
                     ]),
                 ]
             );

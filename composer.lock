@@ -4,8 +4,72 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b015732162e9ed7755a128caaaab8def",
+    "content-hash": "4e4ec6ae122370052da1c5fec6e6fb07",
     "packages": [
+        {
+            "name": "asciisd/tap-php",
+            "version": "v1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/asciisd/tap-php.git",
+                "reference": "3d7efd42621348d95ccbbc5bfe4f8cdb74172e6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/asciisd/tap-php/zipball/3d7efd42621348d95ccbbc5bfe4f8cdb74172e6c",
+                "reference": "3d7efd42621348d95ccbbc5bfe4f8cdb74172e6c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0",
+                "phpseclib/phpseclib": "^2.0|^3.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^8",
+                "scrutinizer/ocular": "~1.1",
+                "symfony/process": "~3.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tap\\": "lib/"
+                },
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amr Emad",
+                    "email": "aemad@asciisd.com",
+                    "homepage": "https://asciisd.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tap Payment PHP Library",
+            "homepage": "https://github.com/asciisd/tap-php",
+            "keywords": [
+                "api",
+                "asciisd",
+                "payment processing",
+                "tap-php"
+            ],
+            "support": {
+                "issues": "https://github.com/asciisd/tap-php/issues",
+                "source": "https://github.com/asciisd/tap-php/tree/v1.0.10"
+            },
+            "time": "2021-01-13T09:39:32+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.1.1",

@@ -38,7 +38,7 @@
                         </div>
                         <div class="text-center mt-3">
                             <img style="width: 30%;border: 1px solid; border-radius: 10px;" id="viewer"
-                                 src="{{asset('public/assets/admin/img/900x400/img1.jpg')}}" alt="image"/>
+                                 src="{{asset('assets/admin/img/900x400/img1.jpg')}}" alt="image"/>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">{{\App\CentralLogics\translate('send')}} {{\App\CentralLogics\translate('notification')}}</button>
@@ -79,7 +79,7 @@
                                     <td>
                                         @if($notification['image']!=null)
                                             <img style="height: 75px; border-radius: 3px"
-                                                 onerror="this.src='{{asset('public/assets/admin/img/160x160/img1.jpg')}}'"
+                                                 onerror="this.src='{{asset('assets/admin/img/160x160/img1.jpg')}}'"
                                                  src="{{asset('storage/app/public/notification')}}/{{$notification['image']}}">
                                         @else
                                             <label class="badge badge-soft-warning">{{translate('No')}} {{\App\CentralLogics\translate('image')}}</label>

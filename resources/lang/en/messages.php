@@ -624,4 +624,5 @@
   'alias' => 'Alias',
   'resource_path' => 'Resource path',
   'country_code' => 'Country code',
+  'tap' => 'Tap',
 );

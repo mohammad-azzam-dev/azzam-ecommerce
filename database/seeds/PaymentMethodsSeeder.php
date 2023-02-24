@@ -28,16 +28,29 @@ class PaymentMethodsSeeder extends Seeder
             ]
         );
 
+        // BusinessSetting::updateOrCreate(
+        //     // https://github.com/iZaL/knet-payment-php
+        //     [
+        //         'key' => 'knet',
+        //     ],
+        //     [
+        //         'value' => json_encode([
+        //             'status' => 0,
+        //             'alias' => '',
+        //             'resource_path' => '', // Absolute Path to where the resource.cgn file is located
+        //         ]),
+        //     ]
+        // );
+
         BusinessSetting::updateOrCreate(
-            // https://github.com/iZaL/knet-payment-php
+            // https://tappayments.api-docs.io/2.0/api
             [
-                'key' => 'knet',
+                'key' => 'tap',
             ],
             [
                 'value' => json_encode([
                     'status' => 0,
-                    'alias' => '',
-                    'resource_path' => '', // Absolute Path to where the resource.cgn file is located
+                    'api_key' => 'sk_test_RBf6h5NJPAvwglKMyS43Tesa', // TEST API KEY
                 ]),
             ]
         );

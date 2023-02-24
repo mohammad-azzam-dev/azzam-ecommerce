@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="text-center mt-3">
                                     <img style="width: 80%;border: 1px solid; border-radius: 10px;" id="viewer"
-                                         src="{{asset('public/assets/admin/img/900x400/img1.jpg')}}" alt="banner image"/>
+                                         src="{{asset('assets/admin/img/900x400/img1.jpg')}}" alt="banner image"/>
                                 </div>
                             </div>
                         </div>

@@ -60,6 +60,7 @@ class MyFatoorahPaymentController extends Controller
                 'CallBackUrl'        => $callbackURL,
                 'ErrorUrl'           => $callbackURL,
             ];
+            // TODO: Helpers::currency_code()
 
             $data = $this->myFatoorah->getInvoiceURL($postFields);
 
@@ -100,7 +101,7 @@ class MyFatoorahPaymentController extends Controller
         $myFatoorahPayment = new MyFatoorahPaymentStatus($this->myFatoorahConfig);
         $data = $myFatoorahPayment->getPaymentStatus(request('paymentId'), 'PaymentId');
 
-        $order = Order::where('transaction_reference', $data->InvoiceId)->firstOrFail();
+        $order = Order::where('transaction_reference', $data->InvoiceId)->where('payment_status', '!=', 'paid')->firstOrFail();
 
         if ($data->InvoiceStatus == 'Paid') {
             $order->update(['order_status' => 'confirmed', 'payment_status' => 'paid', 'transaction_reference' => $payment_id]);
