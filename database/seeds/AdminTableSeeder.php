@@ -1,5 +1,6 @@
 <?php
 
+use App\Model\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -13,17 +14,19 @@ class AdminTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('admins')->insert([
+        $superAdmin = Admin::create([
             'id' => 1,
-            'f_name' => 'Master Admin',
-            'l_name' => 'Khandakar',
+            'f_name' => 'Super',
+            'l_name' => 'Admin',
             'phone' => '01759412381',
-            'email' => 'admin@admin.com',
+            'email' => 'super.admin@email.com',
             'image' => 'def.png',
             'password' => bcrypt(12345678),
             'remember_token' =>Str::random(10),
             'created_at'=>now(),
             'updated_at'=>now()
         ]);
+
+        $superAdmin->assignRole('super-admin');
     }
 }

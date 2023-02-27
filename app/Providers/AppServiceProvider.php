@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Model\BusinessSetting;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
                 config(['app.timezone' => $timezone->value]);
                 date_default_timezone_set($timezone->value);
             }
-        }catch(\Exception $exception){}
+        } catch (\Exception $exception) {
+        }
+
+        Schema::defaultStringLength(191);
     }
 }

@@ -67,6 +67,16 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::delete('delete/{id}', 'BranchController@delete')->name('delete');
         });
 
+        Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+            Route::get('list', 'UserController@list')->name('list');
+            Route::get('add-new', 'UserController@create')->name('add-new');
+            Route::post('store', 'UserController@store')->name('store');
+            Route::get('edit/{id}', 'UserController@edit')->name('edit');
+            Route::post('update/{id}', 'UserController@update')->name('update');
+            Route::delete('delete/{id}', 'UserController@delete')->name('delete');
+            Route::post('search', 'UserController@search')->name('search');
+        });
+
         Route::group(['prefix' => 'delivery-man', 'as' => 'delivery-man.'], function () {
             Route::get('add', 'DeliveryManController@index')->name('add');
             Route::post('store', 'DeliveryManController@store')->name('store');
