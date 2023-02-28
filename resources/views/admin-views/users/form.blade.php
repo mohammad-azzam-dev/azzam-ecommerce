@@ -83,7 +83,7 @@
                             <div class="form-group">
                                 <label class="input-label">{{ translate('role') }}</label>
                                 @php
-                                    $roleName = old('role', '') !== '' ? old('role') : $user->roles()->first()->name;
+                                    $roleName = old('role', '') !== '' ? old('role') : (isset($user) ? $user->roles()->first()->name ?? '' : '');
                                 @endphp
                                 <select name="role" class="form-control" required>
                                     <option value="">Select Role</option>
