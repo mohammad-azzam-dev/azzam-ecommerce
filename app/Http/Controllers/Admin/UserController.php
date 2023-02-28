@@ -106,11 +106,12 @@ class UserController extends Controller
                 $data['image'] = 'def.png';
             }
 
+            $user = null;
             if ($isAdmin) {
-                $admin = Admin::create($data);
+                $user = Admin::create($data);
 
                 // Assign role
-                $admin->assignRole($request->role);
+                $user->assignRole($request->role);
 
                 Toastr::success(translate('Admin added successfully!'));
             } else {
@@ -119,7 +120,7 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->back();
+            return redirect()->route('admin.users.edit', $user->id ?? 0);
         } catch (Throwable $th) {
             DB::rollBack();
 
