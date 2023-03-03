@@ -87,6 +87,8 @@ class DeliveryManController extends Controller
 
     public function store(Request $request)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $request->validate([
             'f_name' => 'required',
             'email' => 'required|unique:delivery_men',
@@ -131,6 +133,8 @@ class DeliveryManController extends Controller
 
     public function edit($id)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $delivery_man = DeliveryMan::find($id);
         return view('admin-views.delivery-man.edit', compact('delivery_man'));
     }
@@ -146,6 +150,8 @@ class DeliveryManController extends Controller
 
     public function update(Request $request, $id)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $request->validate([
             'f_name' => 'required',
             'email' => 'required',
@@ -205,6 +211,8 @@ class DeliveryManController extends Controller
 
     public function delete(Request $request)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $delivery_man = DeliveryMan::find($request->id);
         if (Storage::disk('public')->exists('delivery-man/' . $delivery_man['image'])) {
             Storage::disk('public')->delete('delivery-man/' . $delivery_man['image']);

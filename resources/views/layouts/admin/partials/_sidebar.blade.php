@@ -42,39 +42,43 @@
                         <!-- End Dashboards -->
 
                         <!-- POS Section -->
-                        <li class="nav-item">
-                            <small class="nav-subtitle">{{ \App\CentralLogics\translate('pos') }}
-                                {{ \App\CentralLogics\translate('system') }}</small>
-                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
-                        </li>
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/pos*') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
-                                <i class="tio-shopping nav-icon"></i>
-                                <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ \App\CentralLogics\translate('POS') }}</span>
-                            </a>
-                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
-                                style="display: {{ Request::is('admin/pos/*') ? 'block' : 'none' }}">
-                                <li class="nav-item {{ Request::is('admin/pos/') ? 'active' : '' }}">
-                                    <a class="nav-link " href="{{ route('admin.pos.index') }}"
-                                        title="{{ \App\CentralLogics\translate('pos') }}">
-                                        <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">{{ \App\CentralLogics\translate('pos') }}</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item {{ Request::is('admin/pos/orders') ? 'active' : '' }}">
-                                    <a class="nav-link " href="{{ route('admin.pos.orders') }}"
-                                        title="{{ \App\CentralLogics\translate('orders') }}">
-                                        <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">{{ \App\CentralLogics\translate('orders') }}
-                                            <span class="badge badge-info badge-pill ml-1">
-                                                {{ \App\Model\Order::Pos()->count() }}
+                        @if (auth('admin')->user()->hasRole('super-admin'))
+                            <li class="nav-item">
+                                <small class="nav-subtitle">{{ \App\CentralLogics\translate('pos') }}
+                                    {{ \App\CentralLogics\translate('system') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/pos*') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                    href="javascript:">
+                                    <i class="tio-shopping nav-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ \App\CentralLogics\translate('POS') }}</span>
+                                </a>
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
+                                    style="display: {{ Request::is('admin/pos/*') ? 'block' : 'none' }}">
+                                    <li class="nav-item {{ Request::is('admin/pos/') ? 'active' : '' }}">
+                                        <a class="nav-link " href="{{ route('admin.pos.index') }}"
+                                            title="{{ \App\CentralLogics\translate('pos') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span
+                                                class="text-truncate">{{ \App\CentralLogics\translate('pos') }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{ Request::is('admin/pos/orders') ? 'active' : '' }}">
+                                        <a class="nav-link " href="{{ route('admin.pos.orders') }}"
+                                            title="{{ \App\CentralLogics\translate('orders') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ \App\CentralLogics\translate('orders') }}
+                                                <span class="badge badge-info badge-pill ml-1">
+                                                    {{ \App\Model\Order::Pos()->count() }}
+                                                </span>
                                             </span>
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
                         <!-- End POS -->
 
 
@@ -293,22 +297,27 @@
                                         <span class="text-truncate">{{ \App\CentralLogics\translate('list') }}</span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{ Request::is('admin/product/bulk-import') ? 'active' : '' }}">
-                                    <a class="nav-link " href="{{ route('admin.product.bulk-import') }}"
-                                        title="{{ translate('bulk import') }}">
-                                        <span class="tio-circle nav-indicator-icon"></span>
-                                        <span
-                                            class="text-truncate">{{ \App\CentralLogics\translate('bulk_import') }}</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item {{ Request::is('admin/product/bulk-export') ? 'active' : '' }}">
-                                    <a class="nav-link " href="{{ route('admin.product.bulk-export') }}"
-                                        title="{{ translate('bulk export') }}">
-                                        <span class="tio-circle nav-indicator-icon"></span>
-                                        <span
-                                            class="text-truncate">{{ \App\CentralLogics\translate('bulk_export') }}</span>
-                                    </a>
-                                </li>
+
+                                @if (auth('admin')->user()->hasRole('super-admin'))
+                                    <li
+                                        class="nav-item {{ Request::is('admin/product/bulk-import') ? 'active' : '' }}">
+                                        <a class="nav-link " href="{{ route('admin.product.bulk-import') }}"
+                                            title="{{ translate('bulk import') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span
+                                                class="text-truncate">{{ \App\CentralLogics\translate('bulk_import') }}</span>
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="nav-item {{ Request::is('admin/product/bulk-export') ? 'active' : '' }}">
+                                        <a class="nav-link " href="{{ route('admin.product.bulk-export') }}"
+                                            title="{{ translate('bulk export') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span
+                                                class="text-truncate">{{ \App\CentralLogics\translate('bulk_export') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                         <!-- End Pages -->
@@ -389,17 +398,19 @@
 
 
                         <!-- Pages -->
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/notification*') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{ route('admin.notification.add-new') }}">
-                                <i class="tio-notifications nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ \App\CentralLogics\translate('send') }}
-                                    {{ \App\CentralLogics\translate('notification') }}
-                                </span>
-                            </a>
-                        </li>
+                        @if (auth('admin')->user()->hasRole('super-admin'))
+                            <li
+                                class="navbar-vertical-aside-has-menu {{ Request::is('admin/notification*') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('admin.notification.add-new') }}">
+                                    <i class="tio-notifications nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ \App\CentralLogics\translate('send') }}
+                                        {{ \App\CentralLogics\translate('notification') }}
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
                         <!-- End Pages -->
 
                         <!-- Pages -->
@@ -637,16 +648,18 @@
                         </li>
 
                         <!-- Pages -->
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/add') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{ route('admin.delivery-man.add') }}">
-                                <i class="tio-running nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ \App\CentralLogics\translate('register') }}
-                                </span>
-                            </a>
-                        </li>
+                        @if (auth('admin')->user()->hasRole('super-admin'))
+                            <li
+                                class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/add') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('admin.delivery-man.add') }}">
+                                    <i class="tio-running nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ \App\CentralLogics\translate('register') }}
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
                         <!-- End Pages -->
 
                         <!-- Pages -->

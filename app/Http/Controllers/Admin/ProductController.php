@@ -218,10 +218,10 @@ class ProductController extends Controller
                 $stock_count += $item['stock'];
             }
         } else {
-            $stock_count = (integer)$request['total_stock'];
+            $stock_count = (int)$request['total_stock'];
         }
 
-        if ((integer)$request['total_stock'] != $stock_count) {
+        if ((int)$request['total_stock'] != $stock_count) {
             $validator->getMessageBag()->add('total_stock', 'Stock calculation mismatch!');
         }
 
@@ -320,7 +320,6 @@ class ProductController extends Controller
                 $image_data = Helpers::upload('product/', 'png', $img);
                 array_push($images, $image_data);
             }
-
         }
 
         if (!count($images)) {
@@ -398,10 +397,10 @@ class ProductController extends Controller
                 $stock_count += $item['stock'];
             }
         } else {
-            $stock_count = (integer)$request['total_stock'];
+            $stock_count = (int)$request['total_stock'];
         }
 
-        if ((integer)$request['total_stock'] != $stock_count) {
+        if ((int)$request['total_stock'] != $stock_count) {
             $validator->getMessageBag()->add('total_stock', 'Stock calculation mismatch!');
         }
 
@@ -433,19 +432,23 @@ class ProductController extends Controller
         foreach ($request->lang as $index => $key) {
             if ($request->name[$index] && $key != 'en') {
                 Translation::updateOrInsert(
-                    ['translationable_type' => 'App\Model\Product',
+                    [
+                        'translationable_type' => 'App\Model\Product',
                         'translationable_id' => $p->id,
                         'locale' => $key,
-                        'key' => 'name'],
+                        'key' => 'name'
+                    ],
                     ['value' => $request->name[$index]]
                 );
             }
             if ($request->description[$index] && $key != 'en') {
                 Translation::updateOrInsert(
-                    ['translationable_type' => 'App\Model\Product',
+                    [
+                        'translationable_type' => 'App\Model\Product',
                         'translationable_id' => $p->id,
                         'locale' => $key,
-                        'key' => 'description'],
+                        'key' => 'description'
+                    ],
                     ['value' => $request->description[$index]]
                 );
             }
@@ -496,11 +499,15 @@ class ProductController extends Controller
 
     public function bulk_import_index()
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         return view('admin-views.product.bulk-import');
     }
 
     public function bulk_import_data(Request $request)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         try {
             $collections = (new FastExcel)->import($request->file('products_file'));
         } catch (\Exception $exception) {
@@ -615,6 +622,8 @@ class ProductController extends Controller
 
     public function bulk_export_data()
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $storage = [];
         $products = Product::all();
 
@@ -637,7 +646,7 @@ class ProductController extends Controller
                 $item->description = 'No description available';
             }
 
-            array_push($storage,[
+            array_push($storage, [
                 'name' => $item->name,
                 'description' => $item->description,
                 'category_id' => $category_id,

@@ -34,6 +34,8 @@ class NotificationController extends Controller
 
     public function store(Request $request)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $request->validate([
             'title' => 'required|max:100',
             'description' => 'required|max:255'
@@ -67,12 +69,16 @@ class NotificationController extends Controller
 
     public function edit($id)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $notification = Notification::find($id);
         return view('admin-views.notification.edit', compact('notification'));
     }
 
     public function update(Request $request, $id)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -100,6 +106,8 @@ class NotificationController extends Controller
 
     public function delete(Request $request)
     {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+
         $notification = Notification::find($request->id);
         if (Storage::disk('public')->exists('notification/' . $notification['image'])) {
             Storage::disk('public')->delete('notification/' . $notification['image']);

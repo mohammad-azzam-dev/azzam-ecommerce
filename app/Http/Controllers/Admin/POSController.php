@@ -17,6 +17,11 @@ use function App\CentralLogics\translate;
 
 class POSController extends Controller
 {
+    function __construct()
+    {
+        abort_if(!auth('admin')->user()->hasRole('super-admin'), 403);
+    }
+
     public function index(Request $request)
     {
         $category = $request->query('category_id', 0);
@@ -24,7 +29,7 @@ class POSController extends Controller
         $keyword = $request->keyword;
         $key = explode(' ', $keyword);
 
-        $products = Product::where('total_stock', '>' , 0)->when($request->has('category_id') && $request['category_id'] != 0, function ($query) use ($request) {
+        $products = Product::where('total_stock', '>', 0)->when($request->has('category_id') && $request['category_id'] != 0, function ($query) use ($request) {
             $query->whereJsonContains('category_ids', [['id' => (string)$request['category_id']]]);
         })->when($keyword, function ($query) use ($key) {
             return $query->where(function ($q) use ($key) {
@@ -172,7 +177,6 @@ class POSController extends Controller
                         ]);
                     }
                 }
-
             }
         }
         //Check the string and decreases quantity for the stock
@@ -251,7 +255,7 @@ class POSController extends Controller
 
         $orders = $query->latest()->paginate(Helpers::getPagination())->appends($query_param);
 
-        return view('admin-views.pos.order.list', compact('orders','search'));
+        return view('admin-views.pos.order.list', compact('orders', 'search'));
     }
 
     public function order_details($id)
@@ -314,10 +318,10 @@ class POSController extends Controller
                 $discount_on_product += ($c['discount'] * $c['quantity']);
 
                 $product = Product::find($c['id']);
-                if(($product->total_stock - $c['quantity']) < 0 && count($cart) > 1) {
+                if (($product->total_stock - $c['quantity']) < 0 && count($cart) > 1) {
                     Toastr::error(translate($product->name . translate(' is out of stock')));
                     continue;
-                } else if(($product->total_stock - $c['quantity']) < 0 && count($cart) <= 1) {
+                } else if (($product->total_stock - $c['quantity']) < 0 && count($cart) <= 1) {
                     Toastr::error(translate($product->name . translate(' is out of stock')));
                     return back();
                 }
@@ -376,7 +380,8 @@ class POSController extends Controller
             session(['last_order' => $order->id]);
             Toastr::success(translate('order_placed_successfully'));
             return back();
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
         Toastr::warning(translate('failed_to_place_order'));
         return back();
     }
