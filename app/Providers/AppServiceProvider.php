@@ -25,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Set translation to "arabic"
+        session(['local' => 'ar']);
+        
         try {
             $timezone = BusinessSetting::where(['key' => 'time_zone'])->first();
             if (isset($timezone)) {
