@@ -146,7 +146,7 @@
                             @if(isset($recaptcha) && $recaptcha['status'] == 1)
                                 <div id="recaptcha_element" style="width: 100%;" data-type="image"></div>
                                 <br/>
-                            @else
+                            {{-- @else
                                 <div class="row p-2">
                                     <div class="col-6 pr-0">
                                         <input type="text" class="form-control form-control-lg" name="default_captcha_value" value=""
@@ -158,7 +158,7 @@
                                             <i class="tio-refresh icon"></i>
                                         </a>
                                     </div>
-                                </div>
+                                </div> --}}
                             @endif
 
                             <button type="submit" class="btn btn-lg btn-block btn-primary">{{ translate('Sign in') }}</button>
