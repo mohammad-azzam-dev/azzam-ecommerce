@@ -161,4 +161,6 @@ Route::get('change-language', function (Request $request) {
     if (in_array($request->language, ['en', 'ar'])) {
         session(['local' => $request->language]);
     }
+
+    return redirect()->back();
 })->name('change-language');
