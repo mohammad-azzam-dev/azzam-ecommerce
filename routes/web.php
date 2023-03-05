@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MyFatoorahPaymentController;
 use App\Http\Controllers\TapPaymentController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -154,3 +155,10 @@ Route::prefix('payments')->group(function () {
         Route::get('callback', [TapPaymentController::class, 'callback'])->name('payments.tap.callback');
     });
 });
+
+
+Route::get('change-language', function (Request $request) {
+    if (in_array($request->language, ['en', 'ar'])) {
+        session(['local' => $request->language]);
+    }
+})->name('change-language');
