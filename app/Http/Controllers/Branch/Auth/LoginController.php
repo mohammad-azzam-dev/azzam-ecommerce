@@ -68,9 +68,9 @@ class LoginController extends Controller
                 ],
             ]);
         } else {
-            if (strtolower($request->default_captcha_value) != strtolower(Session('default_captcha_code_branch'))) {
-                return back()->withErrors(\App\CentralLogics\translate('Captcha Failed'));
-            }
+            // if (strtolower($request->default_captcha_value) != strtolower(Session('default_captcha_code_branch'))) {
+            //     return back()->withErrors(\App\CentralLogics\translate('Captcha Failed'));
+            // }
         }
 
         if(Session::has('default_captcha_code_branch')) {
