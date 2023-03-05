@@ -640,15 +640,15 @@
                         @endif
                         <!-- End Pages -->
 
-                        <li class="nav-item">
-                            <small class="nav-subtitle"
-                                title="{{ translate('deliveryman section') }}">{{ \App\CentralLogics\translate('deliveryman') }}
-                                {{ \App\CentralLogics\translate('section') }}</small>
-                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
-                        </li>
-
-                        <!-- Pages -->
                         @if (auth('admin')->user()->hasRole('super-admin'))
+                            <li class="nav-item">
+                                <small class="nav-subtitle"
+                                    title="{{ translate('deliveryman section') }}">{{ \App\CentralLogics\translate('deliveryman') }}
+                                    {{ \App\CentralLogics\translate('section') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+
+                            <!-- Pages -->
                             <li
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/add') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
@@ -659,32 +659,32 @@
                                     </span>
                                 </a>
                             </li>
+                            <!-- End Pages -->
+
+                            <!-- Pages -->
+                            <li
+                                class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/list') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('admin.delivery-man.list') }}">
+                                    <i class="tio-filter-list nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ \App\CentralLogics\translate('list') }}
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li
+                                class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/reviews/list') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('admin.delivery-man.reviews.list') }}">
+                                    <i class="tio-star-outlined nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ \App\CentralLogics\translate('reviews') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- End Pages -->
                         @endif
-                        <!-- End Pages -->
-
-                        <!-- Pages -->
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/list') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{ route('admin.delivery-man.list') }}">
-                                <i class="tio-filter-list nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ \App\CentralLogics\translate('list') }}
-                                </span>
-                            </a>
-                        </li>
-
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man/reviews/list') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                href="{{ route('admin.delivery-man.reviews.list') }}">
-                                <i class="tio-star-outlined nav-icon"></i>
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ \App\CentralLogics\translate('reviews') }}
-                                </span>
-                            </a>
-                        </li>
-                        <!-- End Pages -->
 
                         <li class="nav-item">
                             <small class="nav-subtitle"
