@@ -12,6 +12,7 @@ use App\Model\Order;
 use App\Model\OrderDetail;
 use App\Model\Product;
 use App\Model\Review;
+use App\Services\TwilioService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -153,6 +154,12 @@ class OrderController extends Controller
 
             } catch (\Exception $e) {
             }
+
+            // send whatsapp message
+            $twilioService = new TwilioService();
+            $message = "New order received: Order #{$o_id} - From: {$request->user()->f_name} {$request->user()->l_name}";
+
+            $twilioService->sendWhatsAppMessage("whatsapp:+96171739279", $message);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
