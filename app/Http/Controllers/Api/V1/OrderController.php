@@ -162,7 +162,9 @@ class OrderController extends Controller
 
                 $twilioService->sendWhatsAppMessage("+96171739279", $message);
             } catch (\Exception $exception) {
-                dd($exception->getMessage());
+//                dd($exception->getMessage());
+                return response()->json([$exception->getMessage()], 403);
+
             }
 
             return response()->json([
