@@ -156,10 +156,10 @@ class OrderController extends Controller
             }
 
             // send whatsapp message
-            $twilioService = new TwilioService();
-            $message = "New order received: Order #{$o_id} - From: {$request->user()->f_name} {$request->user()->l_name}";
-
-            $twilioService->sendWhatsAppMessage("+96171739279", $message);
+//            $twilioService = new TwilioService();
+//            $message = "New order received: Order #{$o_id} - From: {$request->user()->f_name} {$request->user()->l_name}";
+//
+//            $twilioService->sendWhatsAppMessage("+96171739279", $message);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -294,5 +294,13 @@ class OrderController extends Controller
                 ['code' => 'order', 'message' => 'not found!']
             ]
         ], 401);
+    }
+
+    public function test_whatsapp_message()
+    {
+        $twilioService = new TwilioService();
+        $message = "New order received: Order #";
+
+        $twilioService->sendWhatsAppMessage("+96171739279", $message);
     }
 }

@@ -99,6 +99,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
             Route::put('cancel', 'OrderController@cancel_order');
             Route::get('track', 'OrderController@track_order');
             Route::put('payment-method', 'OrderController@update_payment_method');
+            Route::get('test-whatsapp-message', 'OrderController@test_whatsapp_message');
         });
         // Chatting
         Route::group(['prefix' => 'message'], function () {
