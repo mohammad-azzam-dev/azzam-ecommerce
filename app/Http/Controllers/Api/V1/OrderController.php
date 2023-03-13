@@ -158,9 +158,12 @@ class OrderController extends Controller
             // send whatsapp message
             try {
                 $twilioService = new TwilioService();
-                $message = "New order received: Order #{$o_id} - From: {$request->user()->f_name} {$request->user()->l_name}";
 
-                $twilioService->sendWhatsAppMessage("+96171739279", $message);
+                $adminMessage = "New order received: Order #{$o_id} - From: {$request->user()->f_name} {$request->user()->l_name}";
+                $twilioService->sendWhatsAppMessage("+96171739279", $adminMessage);
+
+                $userMessage = "Thank you for your purchase! Your order #{$o_id} has been received.";
+                $twilioService->sendWhatsAppMessage("+96103762407", $userMessage);
             } catch (\Exception $exception) {
 //                dd($exception->getMessage());
                 return response()->json([$exception->getMessage()], 403);
