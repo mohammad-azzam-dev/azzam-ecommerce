@@ -160,7 +160,7 @@ class OrderController extends Controller
                 $twilioService = new TwilioService();
 
                 $adminMessage = "New order received: Order #{$o_id} - From: {$request->user()->f_name} {$request->user()->l_name}";
-                $twilioService->sendWhatsAppMessage("+96171739279", $adminMessage);
+                $twilioService->sendWhatsAppMessage("+96596698826", $adminMessage);
 
 //                $userMessage = "Thank you for your purchase! Your order #{$o_id} has been received.";
 //                $twilioService->sendWhatsAppMessage("+96171739279", $userMessage);
