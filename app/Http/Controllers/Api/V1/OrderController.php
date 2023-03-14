@@ -165,6 +165,8 @@ class OrderController extends Controller
             $deliveryAddress = CustomerAddress::find($request->delivery_address_id);
             $addressDetails = $deliveryAddress ? $deliveryAddress->address : '';
             $addressType = $deliveryAddress ? $deliveryAddress->address_type : '';
+
+            // google maps link
             $link = "https://www.google.com/maps/search/?api=1&query=".$deliveryAddress->latitude.",".$deliveryAddress->longitude;
 
             $admin = Admin::find(1);
