@@ -162,6 +162,8 @@ class OrderController extends Controller
             $twilioService = new TwilioService();
 
             $productNames = implode(', ', $productNames);
+            $deliveryAddress = CustomerAddress::find($request->delivery_address_id);
+            $addressTo = $deliveryAddress ? $deliveryAddress->address : '';
 
             $admin = Admin::find(1);
             $adminPhoneNumber = $admin->phone;
@@ -173,7 +175,10 @@ class OrderController extends Controller
             From: {$request->user()->f_name} {$request->user()->l_name}
             Total Amount: {$request['order_amount']}
             Products: {$productNames}
+            Address: {$addressTo}
             ";
+
+            $adminMessage = trim($adminMessage);
 
 //            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
             $twilioService->sendWhatsAppMessage("+96171739279", $adminMessage);
