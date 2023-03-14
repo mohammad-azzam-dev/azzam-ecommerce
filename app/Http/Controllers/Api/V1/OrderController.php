@@ -175,7 +175,7 @@ Order #{$o_id}
 From: {$request->user()->f_name} {$request->user()->l_name}
 Phone Number: {$request->user()->phone}
 Total Amount: {$request['order_amount']}
-Products: {$productNames}
+Product(s): {$productNames}
 Address Type: {$addressType}
 Address: {$addressDetails}
 ";
@@ -183,7 +183,7 @@ Address: {$addressDetails}
             $adminMessage = trim($adminMessage);
 
 //            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
-            $twilioService->sendWhatsAppMessage("+96171739279", $adminMessage);
+            $twilioService->sendWhatsAppMessage("+96596698826", $adminMessage);
 
 //                $userMessage = "Thank you for your purchase! Your order #{$o_id} has been received.";
 //                $twilioService->sendWhatsAppMessage("+96171739279", $userMessage);
