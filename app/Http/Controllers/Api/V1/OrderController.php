@@ -166,12 +166,14 @@ class OrderController extends Controller
             $admin = Admin::find(1);
             $adminPhoneNumber = $admin->phone;
 
-            $adminMessage = "New order received:
-                Order #{$o_id}
-                From: {$request->user()->f_name} {$request->user()->l_name}
-                Amount: {$request['order_amount']}
-                Products: {$productNames}
-                ";
+            $adminMessage = "
+            New order received:
+
+            Order #{$o_id}
+            From: {$request->user()->f_name} {$request->user()->l_name}
+            Total Amount: {$request['order_amount']}
+            Products: {$productNames}
+            ";
 
 //            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
             $twilioService->sendWhatsAppMessage("+96171739279", $adminMessage);
