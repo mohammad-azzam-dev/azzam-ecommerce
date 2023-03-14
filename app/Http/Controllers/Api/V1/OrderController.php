@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\CentralLogics\Helpers;
 use App\CentralLogics\OrderLogic;
 use App\Http\Controllers\Controller;
+use App\Model\Admin;
 use App\Model\BusinessSetting;
 use App\Model\CustomerAddress;
 use App\Model\DMReview;
@@ -90,8 +91,10 @@ class OrderController extends Controller
 
             DB::table('orders')->insertGetId($or);
 
+            $productNames = [];
             foreach ($request['cart'] as $c) {
                 $product = Product::find($c['product_id']);
+                $productNames[] = $product->name;
                 if (count(json_decode($product['variations'], true)) > 0) {
                     $price = Helpers::variation_price($product, json_encode($c['variation']));
                 } else {
@@ -156,19 +159,26 @@ class OrderController extends Controller
             }
 
             // send whatsapp message
-            try {
-                $twilioService = new TwilioService();
+            $twilioService = new TwilioService();
 
-                $adminMessage = "New order received: Order #{$o_id} - From: {$request->user()->f_name} {$request->user()->l_name}";
-                $twilioService->sendWhatsAppMessage("+96596698826", $adminMessage);
+            $productNames = implode(', ', $productNames);
+
+            $admin = Admin::find(1);
+            $adminPhoneNumber = $admin->phone;
+
+            $adminMessage = "New order received:
+                Order #{$o_id}
+                From: {$request->user()->f_name} {$request->user()->l_name}
+                Amount: {$request['order_amount']}
+                Products: {$productNames}
+                ";
+
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+            $twilioService->sendWhatsAppMessage("+96171739279", $adminMessage);
 
 //                $userMessage = "Thank you for your purchase! Your order #{$o_id} has been received.";
 //                $twilioService->sendWhatsAppMessage("+96171739279", $userMessage);
-            } catch (\Exception $exception) {
-//                dd($exception->getMessage());
-                return response()->json([$exception->getMessage()], 403);
 
-            }
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -303,13 +313,5 @@ class OrderController extends Controller
                 ['code' => 'order', 'message' => 'not found!']
             ]
         ], 401);
-    }
-
-    public function test_whatsapp_message()
-    {
-        $twilioService = new TwilioService();
-        $message = "New order received: Order #";
-
-        $twilioService->sendWhatsAppMessage("+96171739279", $message);
     }
 }
