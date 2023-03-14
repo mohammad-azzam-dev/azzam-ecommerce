@@ -164,7 +164,7 @@ class OrderController extends Controller
             $productNames = implode(', ', $productNames);
             $deliveryAddress = CustomerAddress::find($request->delivery_address_id);
             $addressDetails = $deliveryAddress ? $deliveryAddress->address : '';
-            $addressType = $deliveryAddress ? $deliveryAddress->type : '';
+            $addressType = $deliveryAddress ? $deliveryAddress->address_type : '';
 
             $admin = Admin::find(1);
             $adminPhoneNumber = $admin->phone;
