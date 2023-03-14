@@ -165,6 +165,7 @@ class OrderController extends Controller
             $deliveryAddress = CustomerAddress::find($request->delivery_address_id);
             $addressDetails = $deliveryAddress ? $deliveryAddress->address : '';
             $addressType = $deliveryAddress ? $deliveryAddress->address_type : '';
+            $link = "https://www.google.com/maps/search/?api=1&query=".$deliveryAddress->latitude.",".$deliveryAddress->longitude;
 
             $admin = Admin::find(1);
             $adminPhoneNumber = $admin->phone;
@@ -178,6 +179,7 @@ Total Amount: {$request['order_amount']}
 Product(s): {$productNames}
 Address Type: {$addressType}
 Address: {$addressDetails}
+Link: $link
 ";
 
             $adminMessage = trim($adminMessage);
