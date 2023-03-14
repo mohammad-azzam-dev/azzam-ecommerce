@@ -163,20 +163,22 @@ class OrderController extends Controller
 
             $productNames = implode(', ', $productNames);
             $deliveryAddress = CustomerAddress::find($request->delivery_address_id);
-            $addressTo = $deliveryAddress ? $deliveryAddress->address : '';
+            $addressDetails = $deliveryAddress ? $deliveryAddress->address : '';
+            $addressType = $deliveryAddress ? $deliveryAddress->type : '';
 
             $admin = Admin::find(1);
             $adminPhoneNumber = $admin->phone;
 
-            $adminMessage = "
-            New order received:
+            $adminMessage = "New order received:
 
-            Order #{$o_id}
-            From: {$request->user()->f_name} {$request->user()->l_name}
-            Total Amount: {$request['order_amount']}
-            Products: {$productNames}
-            Address: {$addressTo}
-            ";
+Order #{$o_id}
+From: {$request->user()->f_name} {$request->user()->l_name}
+Phone Number: {$request->user()->phone}
+Total Amount: {$request['order_amount']}
+Products: {$productNames}
+Address Type: {$addressType}
+Address: {$addressDetails}
+";
 
             $adminMessage = trim($adminMessage);
 
