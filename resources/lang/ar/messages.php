@@ -371,7 +371,7 @@
   'Location Settings' => 'إعدادات الموقع',
   'coverage' => 'التغطية',
   'This location setup is for your Main branch. Carefully set your restaurant location and coverage area. If you want to ignore the coverage area then keep the input box empty.<br>
-                        You can ignore this when you have only the default branch and you don\'t want coverage area.' => 'This location setup is for your Main branch. Carefully set your restaurant location and coverage area. If you want to ignore the coverage area then keep the input box empty. br 
+                        You can ignore this when you have only the default branch and you don\'t want coverage area.' => 'This location setup is for your Main branch. Carefully set your restaurant location and coverage area. If you want to ignore the coverage area then keep the input box empty. br
                         You can ignore this when you have only the default branch and you don t want coverage area.',
   'Ex: -94.22213' => 'مثال: -94.22213',
   'Ex: 103.344322' => 'مثال: 103.344322',
@@ -630,5 +630,5 @@
   'customer' => 'Customer',
   'customer section' => 'Customer section',
   'register' => 'Register',
-  'deliveryman' => 'Deliveryman',
+  'deliveryman' => 'Deliveryman', // test
 );
