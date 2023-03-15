@@ -630,5 +630,5 @@
   'customer' => 'Customer',
   'customer section' => 'Customer section',
   'register' => 'Register',
-  'deliveryman' => 'Deliveryman', // test
+  'deliveryman' => 'Deliveryman',
 );
