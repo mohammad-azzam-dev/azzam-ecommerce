@@ -300,6 +300,20 @@ class BusinessSettingsController extends Controller
                     ]),
                 ]
             );
+        } elseif ($name == 'twilio') {
+            $payment = BusinessSetting::updateOrCreate(
+                [
+                    'key' => 'twilio',
+                ],
+                [
+                    'value' => json_encode([
+                        'status' => $request['status'],
+                        'sid' => $request['sid'],
+                        'token' => $request['token'],
+                        'phone_number' => $request['phone_number'],
+                    ]),
+                ]
+            );
         } elseif ($name == 'tap') {
             $payment = BusinessSetting::updateOrCreate(
                 [

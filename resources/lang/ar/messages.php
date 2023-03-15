@@ -631,4 +631,6 @@
   'customer section' => 'Customer section',
   'register' => 'Register',
   'deliveryman' => 'Deliveryman',
+  'deliveryman section' => 'Deliveryman section',
+  'about_us' => 'About us',
 );

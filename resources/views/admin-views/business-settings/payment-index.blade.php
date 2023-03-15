@@ -329,6 +329,65 @@
                 </div>
             </div>
 
+            {{-- Twilio --}}
+            <div class="col-md-6" style="margin-top: 26px!important;">
+                <div class="card">
+                    <div class="card-body" style="padding: 20px">
+                        <h5 class="text-center">{{ \App\CentralLogics\translate('twilio') }}</h5>
+                        @php($config = \App\CentralLogics\Helpers::get_business_settings('twilio'))
+                        <form
+                            action="{{ env('APP_MODE') != 'demo' ? route('admin.business-settings.payment-method-update', ['twilio']) : 'javascript:' }}"
+                            method="post">
+                            @csrf
+                            @if (isset($config))
+                                <div class="form-group mb-2">
+                                    <label class="control-label">{{ \App\CentralLogics\translate('twilio') }}</label>
+                                </div>
+                                <div class="form-group mb-2 mt-2">
+                                    <input type="radio" name="status" value="1"
+                                        {{ $config['status'] == 1 ? 'checked' : '' }}>
+                                    <label
+                                        style="padding-left: 10px">{{ \App\CentralLogics\translate('active') }}</label>
+                                    <br>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <input type="radio" name="status" value="0"
+                                        {{ $config['status'] == 0 ? 'checked' : '' }}>
+                                    <label
+                                        style="padding-left: 10px">{{ \App\CentralLogics\translate('inactive') }}</label>
+                                    <br>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label style="padding-left: 10px">{{ \App\CentralLogics\translate('twilio') }}
+                                        {{ \App\CentralLogics\translate('account') }} {{ \App\CentralLogics\translate('sid') }}</label><br>
+                                    <input type="text" class="form-control" name="sid"
+                                           value="{{ env('APP_MODE') != 'demo' ? $config['sid'] : '' }}">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label style="padding-left: 10px">{{ \App\CentralLogics\translate('twilio') }} {{ \App\CentralLogics\translate('auth') }}
+                                        {{ \App\CentralLogics\translate('token') }}
+                                    </label><br>
+                                    <input type="text" class="form-control" name="token"
+                                           value="{{ env('APP_MODE') != 'demo' ? $config['token'] : '' }}">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label style="padding-left: 10px">{{ \App\CentralLogics\translate('phone_number') }}
+                                    </label><br>
+                                    <input type="text" class="form-control" name="phone_number"
+                                           value="{{ env('APP_MODE') != 'demo' ? $config['phone_number'] : '' }}">
+                                </div>
+                                <button type="{{ env('APP_MODE') != 'demo' ? 'submit' : 'button' }}"
+                                        onclick="{{ env('APP_MODE') != 'demo' ? '' : 'call_demo()' }}"
+                                        class="btn btn-primary mb-2">{{ \App\CentralLogics\translate('save') }}</button>
+                            @else
+                                <button type="submit"
+                                        class="btn btn-primary mb-2">{{ \App\CentralLogics\translate('configure') }}</button>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             {{-- PayPal --}}
             <div class="col-md-6" style="margin-top: 26px!important;">
                 <div class="card">

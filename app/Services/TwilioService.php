@@ -6,27 +6,34 @@ use Twilio\Rest\Client;
 
 class TwilioService
 {
+    protected $config;
     protected $accountSid;
     protected $authToken;
     protected $twilioPhoneNumber;
 
     public function __construct()
     {
-        $this->accountSid = config('services.twilio.account_sid');
-        $this->authToken = config('services.twilio.auth_token');
-        $this->twilioPhoneNumber = config('services.twilio.phone_number');
+        $this->config = \App\CentralLogics\Helpers::get_business_settings('twilio');
+
+        $this->accountSid = $this->config ? $this->config['sid'] : null;
+        $this->authToken = $this->config ? $this->config['token'] : null;
+        $this->twilioPhoneNumber = $this->config ? $this->config['phone_number'] : null;
     }
 
     public function sendWhatsAppMessage($to, $message)
     {
-        $client = new Client($this->accountSid, $this->authToken);
+        if( $this->config['status'] == 1 && $this->accountSid && $this->authToken && $this->twilioPhoneNumber ) {
 
-        $client->messages->create(
-            "whatsapp:$to",
-            array(
-                'from' => "whatsapp:{$this->twilioPhoneNumber}",
-                'body' => $message,
-            )
-        );
+            $client = new Client($this->accountSid, $this->authToken);
+
+            $client->messages->create(
+                "whatsapp:$to",
+                array(
+                    'from' => "whatsapp:{$this->twilioPhoneNumber}",
+                    'body' => $message,
+                )
+            );
+
+        }
     }
 }

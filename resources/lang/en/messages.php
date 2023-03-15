@@ -637,4 +637,12 @@
   'Users List' => 'Users List',
   'Update User' => 'Update User',
   'Updated successfully!' => 'Updated successfully!',
+  'english' => 'English',
+  'arabic' => 'Arabic',
+  'Save Changes' => 'Save Changes',
+  'twilio' => 'Twilio',
+  'published_key' => 'Published key',
+  'phone_number' => 'Phone number',
+  'auth' => 'Auth',
+  'account' => 'Account',
 );
