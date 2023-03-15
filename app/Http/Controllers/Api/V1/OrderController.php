@@ -186,9 +186,7 @@ Google Maps Link: $link
 
             $adminMessage = trim($adminMessage);
 
-//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
-            $twilioService->sendWhatsAppMessage("+96171739279", $adminMessage);
-//            $twilioService->sendWhatsAppMessage("+96596698826", $adminMessage);
+            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
