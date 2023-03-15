@@ -181,7 +181,7 @@ Total Amount: {$request['order_amount']}
 Product(s): {$productNames}
 Address Type: {$addressType}
 Address: {$addressDetails}
-Link: $link
+Google Maps Link: $link
 ";
 
             $adminMessage = trim($adminMessage);
