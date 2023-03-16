@@ -633,4 +633,8 @@
   'deliveryman' => 'Deliveryman',
   'deliveryman section' => 'Deliveryman section',
   'about_us' => 'About us',
+  'Social Media' => 'Social Media',
+  'map_api_setting' => 'Map api setting',
+  'delivery_companies' => 'Delivery companies',
+  'out_for_delivery' => 'Out for delivery',
 );

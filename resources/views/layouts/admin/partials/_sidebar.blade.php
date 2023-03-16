@@ -428,6 +428,19 @@
                         {{-- Users (Now it's only for admins) --}}
                         @if (auth('admin')->user()->hasRole('super-admin'))
                             <li
+                                class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-companies*') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                   href="{{ route('admin.delivery-company.index') }}">
+                                    <i class="tio-user nav-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ \App\CentralLogics\translate('delivery_companies') }}</span>
+                                </a>
+                            </li>
+                        @endif
+
+                        {{-- Users (Now it's only for admins) --}}
+                        @if (auth('admin')->user()->hasRole('super-admin'))
+                            <li
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/user*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.users.list') }}">
@@ -439,7 +452,7 @@
                         @endif
 
                         @if (auth('admin')->user()->hasRole('super-admin'))
-                            {{-- 
+                            {{--
                             TODO:
                                 1. Prevent access to links belows and their functions
                                 2. Create a page, so super-admin can add "admins"
