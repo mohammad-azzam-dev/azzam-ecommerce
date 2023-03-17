@@ -14,7 +14,7 @@
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0">
                     <h1 class="page-header-title"><i
-                            class="tio-add-circle-outlined"></i> {{\App\CentralLogics\translate('add')}} {{\App\CentralLogics\translate('new')}} {{\App\CentralLogics\translate('delivery')}} {{\App\CentralLogics\translate('company')}}
+                            class="tio-add-circle-outlined"></i> {{\App\CentralLogics\translate('add')}} {{\App\CentralLogics\translate('new')}} {{\App\CentralLogics\translate('delivery_company')}}
                     </h1>
                 </div>
             </div>
@@ -25,40 +25,15 @@
                 <form action="{{route('admin.delivery-company.store')}}" method="post" id="delivery_company_form"
                       enctype="multipart/form-data">
                     @csrf
-                    @php($language=\App\Model\BusinessSetting::where('key','language')->first())
-                    @php($language = $language->value ?? null)
-                    @php($default_lang = 'bn')
-                    @if($language)
-                        @php($default_lang = json_decode($language)[0])
-                        <ul class="nav nav-tabs mb-4">
-                            @foreach(json_decode($language) as $lang)
-                                <li class="nav-item">
-                                    <a class="nav-link lang_link {{$lang == $default_lang? 'active':''}}" href="#" id="{{$lang}}-link">{{\App\CentralLogics\Helpers::get_language_name($lang).'('.strtoupper($lang).')'}}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <div class="row">
-                            <div class="col-12">
-                                @foreach(json_decode($language) as $lang)
-                                    <div class="form-group {{$lang != $default_lang ? 'd-none':''}} lang_form" id="{{$lang}}-form">
-                                        <label class="input-label" for="exampleFormControlInput1">{{\App\CentralLogics\translate('name')}} ({{strtoupper($lang)}})</label>
-                                        <input type="text" name="name[]" class="form-control" placeholder="New Delivery Company" {{$lang == $default_lang? 'required':''}} oninvalid="document.getElementById('en-link').click()" maxlength="255">
-                                    </div>
-                                    <input type="hidden" name="lang[]" value="{{$lang}}">
-                                @endforeach
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group lang_form" id="form">
+                                <label class="input-label" for="exampleFormControlInput1">{{\App\CentralLogics\translate('name')}}</label>
+                                <input type="text" name="name" class="form-control" placeholder="New Delivery Company">
                             </div>
                         </div>
-                    @else
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group {{$lang != $default_lang ? 'd-none':''}} lang_form" id="{{$lang}}-form">
-                                    <label class="input-label" for="exampleFormControlInput1">{{\App\CentralLogics\translate('name')}} ({{strtoupper($lang)}})</label>
-                                    <input type="text" name="name[]" class="form-control" placeholder="New Delivery Company" {{$lang == $default_lang? 'required':''}}>
-                                </div>
-                                <input type="hidden" name="lang[]" value="{{$lang}}">
-                            </div>
-                        </div>
-                    @endif
+                    </div>
                     <div id="from_part_2">
                         <div class="row">
 
@@ -80,7 +55,7 @@
                                            for="exampleFormControlInput1">{{\App\CentralLogics\translate('province')}}</label>
                                     <select name="provinces[]" class="form-control js-select2-custom" multiple>
                                         @foreach($provinces as $key => $province)
-                                            <option value="{{ $key+1 }}">{{ $province }}</option>
+                                            <option value="{{ $province->id }}">{{ $province->province }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -103,7 +78,7 @@
 
 @push('script_2')
     <script src="{{asset('public/assets/admin/js/spartan-multi-image-picker.js')}}"></script>
-    
+
     <script type="text/javascript">
         $(function () {
             $("#coba").spartanMultiImagePicker({
@@ -166,20 +141,6 @@
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
-    <script>
-        @if($language)
-        @foreach(json_decode($language) as $lang)
-        var en_quill = new Quill('#{{$lang}}_editor', {
-            theme: 'snow'
-        });
-        @endforeach
-        @else
-        var bn_quill = new Quill('#editor', {
-            theme: 'snow'
-        });
-        @endif
-
-    </script>
 @endpush
 
 

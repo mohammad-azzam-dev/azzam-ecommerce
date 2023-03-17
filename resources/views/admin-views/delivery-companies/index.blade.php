@@ -80,7 +80,10 @@
                                     </td>
                                     <td>
                                         <span class="d-block font-size-sm text-body">
-                                            {{implode(', ', $deliveryCompany->provinces()->pluck('province_id')->toArray())}}
+                                            @php
+                                                $provinces = $deliveryCompany->countryProvinces->pluck('province')->toArray();
+                                            @endphp
+                                            {{implode(', ', $provinces)}}
                                         </span>
                                     </td>
 {{--                                    <td>--}}
@@ -112,7 +115,7 @@
                                                 <a class="dropdown-item" href="javascript:"
                                                    onclick="form_alert('delivery-company-{{$deliveryCompany['id']}}','{{\App\CentralLogics\translate('Want to delete this item ?')}}')">{{\App\CentralLogics\translate('delete')}}</a>
                                                 <form action="{{route('admin.delivery-company.delete',[$deliveryCompany['id']])}}"
-                                                      method="post" id="product-{{$deliveryCompany['id']}}">
+                                                      method="post" id="delivery-company-{{$deliveryCompany['id']}}">
                                                     @csrf @method('delete')
                                                 </form>
                                             </div>

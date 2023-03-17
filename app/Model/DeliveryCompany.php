@@ -12,4 +12,16 @@ class DeliveryCompany extends Model
     {
         return $this->hasMany(DeliveryCompanyProvince::class);
     }
+
+    public function countryProvinces()
+    {
+        return $this->hasManyThrough(
+            CountryProvince::class,
+            DeliveryCompanyProvince::class,
+            'delivery_company_id', // Foreign key on the DeliveryCompanyProvince table
+            'id', // Local key on the CountryProvince table
+            'id', // Local key on the DeliveryCompany table
+            'province_id' // Foreign key on the CountryProvince table
+        );
+    }
 }

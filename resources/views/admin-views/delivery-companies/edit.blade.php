@@ -26,7 +26,7 @@
                         <div class="col-12">
                             <div class="form-group lang_form" id="form">
                                 <label class="input-label" for="exampleFormControlInput1">{{\App\CentralLogics\translate('name')}}</label>
-                                <input type="text" name="name[]" value="{{ $deliveryCompany['name'] }}" class="form-control" placeholder="New Delivery Company">
+                                <input type="text" name="name" value="{{ $deliveryCompany['name'] }}" class="form-control" placeholder="New Delivery Company">
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                            for="exampleFormControlInput1">{{\App\CentralLogics\translate('province')}}</label>
                                     <select name="provinces[]" class="form-control js-select2-custom" multiple>
                                         @foreach($provinces as $key => $province)
-                                            <option value="{{ $key+1 }}" {{ in_array( $key+1, $deliveryCompany->provinces()->pluck('province_id')->toArray() ) ? 'selected' : '' }}>{{ $province }}</option>
+                                            <option value="{{ $province->id }}" {{ in_array( $province->id, $deliveryCompany->provinces->pluck('province_id')->toArray() ) ? 'selected' : '' }}>{{ $province->province }}</option>
                                         @endforeach
                                     </select>
                                 </div>

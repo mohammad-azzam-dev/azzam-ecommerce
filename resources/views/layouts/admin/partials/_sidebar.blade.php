@@ -425,7 +425,7 @@
                         </li>
                         <!-- End Pages -->
 
-                        {{-- Users (Now it's only for admins) --}}
+                        {{-- Delivery Companies (Now it's only for admins) --}}
                         @if (auth('admin')->user()->hasRole('super-admin'))
                             <li
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-companies*') ? 'active' : '' }}">

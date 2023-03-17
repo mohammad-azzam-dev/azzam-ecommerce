@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
+use App\Model\CountryProvince;
 use App\Model\DeliveryCompany;
 use App\Model\DeliveryCompanyProvince;
 use App\Model\Translation;
@@ -34,7 +35,7 @@ class DeliveryCompanyController extends Controller
             $query = DeliveryCompany::latest();
         }
 
-        $deliveryCompanies = $query->with('provinces')->paginate(Helpers::pagination_limit())->appends($query_param);
+        $deliveryCompanies = $query->with('countryProvinces')->paginate(Helpers::pagination_limit())->appends($query_param);
 
         return view('admin-views.delivery-companies.index', compact('deliveryCompanies', 'search'));
     }
@@ -59,13 +60,7 @@ class DeliveryCompanyController extends Controller
      */
     public function create()
     {
-        $provinces = [
-            'الكويت',
-            'حولي',
-            'مبارك الكبير',
-            'الجهراء',
-            'الأحمدي',
-        ];
+        $provinces = CountryProvince::all();
         return view('admin-views.delivery-companies.create', compact('provinces'));
     }
 
@@ -83,15 +78,8 @@ class DeliveryCompanyController extends Controller
             'provinces' => 'required|array'
         ]);
 
-        foreach ($request->name as $name) {
-            if (strlen($name) > 255) {
-                toastr::error(\App\CentralLogics\translate('Name is too long!'));
-                return back();
-            }
-        }
-
         $deliveryCompany = DeliveryCompany::create([
-            'name' => $request->name[array_search('en', $request->lang)],
+            'name' => $request->name,
             'phone_number' => $request->phone_number,
         ]);
 
@@ -101,24 +89,6 @@ class DeliveryCompanyController extends Controller
             ]);
         }
 
-        $data = [];
-        foreach($request->lang as $index=>$key)
-        {
-            if($request->name[$index] && $key != 'en')
-            {
-                $data[] = array(
-                    'translationable_type' => 'App\Model\DeliveryCompany',
-                    'translationable_id' => $deliveryCompany->id,
-                    'locale' => $key,
-                    'key' => 'name',
-                    'value' => $request->name[$index],
-                );
-            }
-        }
-        if(count($data))
-        {
-            Translation::insert($data);
-        }
         Toastr::success(translate('Delivery Company added successfully!'));
         return redirect()->route('admin.delivery-company.index');
     }
@@ -142,13 +112,8 @@ class DeliveryCompanyController extends Controller
      */
     public function edit(DeliveryCompany $deliveryCompany)
     {
-        $provinces = [
-            'الكويت',
-            'حولي',
-            'مبارك الكبير',
-            'الجهراء',
-            'الأحمدي',
-        ];
+        $provinces = CountryProvince::all();
+
         return view('admin-views.delivery-companies.edit', compact('deliveryCompany', 'provinces'));
     }
 
@@ -167,47 +132,25 @@ class DeliveryCompanyController extends Controller
             'provinces' => 'required|array'
         ]);
 
-        foreach ($request->name as $name) {
-            if (strlen($name) > 255) {
-                toastr::error(\App\CentralLogics\translate('Name is too long!'));
-                return back();
-            }
-        }
-
         $deliveryCompany->update([
-            'name' => $request->name[array_search('en', $request->lang)],
+            'name' => $request->name,
             'phone_number' => $request->phone_number,
         ]);
 
         $newProvincesIds = [];
         foreach ($request->provinces as $province) {
-            $newProvince = $deliveryCompany->provinces()->updateOrCreate([
-                'province_id' => $province
+            $newProvince = DeliveryCompanyProvince::updateOrCreate([
+                'delivery_company_id' => $deliveryCompany->id,
+                'province_id' => $province,
+            ],[
+                'province_id' => $province,
             ]);
 
-            $newProvincesIds[] = $newProvince->province_id;
+            $newProvincesIds[] = $newProvince->id;
         }
 
-        DeliveryCompanyProvince::where('delivery_company_id', $deliveryCompany->id)->whereNotIn('province_id', $newProvincesIds)->delete();
+        DeliveryCompanyProvince::where('delivery_company_id', $deliveryCompany->id)->whereNotIn('id', $newProvincesIds)->delete();
 
-        $data = [];
-        foreach($request->lang as $index=>$key)
-        {
-            if($request->name[$index] && $key != 'en')
-            {
-                $data[] = array(
-                    'translationable_type' => 'App\Model\DeliveryCompany',
-                    'translationable_id' => $deliveryCompany->id,
-                    'locale' => $key,
-                    'key' => 'name',
-                    'value' => $request->name[$index],
-                );
-            }
-        }
-        if(count($data))
-        {
-            Translation::insert($data);
-        }
         Toastr::success(translate('Delivery Company updated successfully!'));
         return redirect()->route('admin.delivery-company.index');
     }
