@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Model\DeliveryCompany;
+use App\Model\DeliveryCompanyProvince;
 use App\Model\Translation;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
@@ -141,7 +142,14 @@ class DeliveryCompanyController extends Controller
      */
     public function edit(DeliveryCompany $deliveryCompany)
     {
-        //
+        $provinces = [
+            'الكويت',
+            'حولي',
+            'مبارك الكبير',
+            'الجهراء',
+            'الأحمدي',
+        ];
+        return view('admin-views.delivery-companies.edit', compact('deliveryCompany', 'provinces'));
     }
 
     /**
@@ -153,7 +161,55 @@ class DeliveryCompanyController extends Controller
      */
     public function update(Request $request, DeliveryCompany $deliveryCompany)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'phone_number' => 'required',
+            'provinces' => 'required|array'
+        ]);
+
+        foreach ($request->name as $name) {
+            if (strlen($name) > 255) {
+                toastr::error(\App\CentralLogics\translate('Name is too long!'));
+                return back();
+            }
+        }
+
+        $deliveryCompany->update([
+            'name' => $request->name[array_search('en', $request->lang)],
+            'phone_number' => $request->phone_number,
+        ]);
+
+        $newProvincesIds = [];
+        foreach ($request->provinces as $province) {
+            $newProvince = $deliveryCompany->provinces()->updateOrCreate([
+                'province_id' => $province
+            ]);
+
+            $newProvincesIds[] = $newProvince->province_id;
+        }
+
+        DeliveryCompanyProvince::where('delivery_company_id', $deliveryCompany->id)->whereNotIn('province_id', $newProvincesIds)->delete();
+
+        $data = [];
+        foreach($request->lang as $index=>$key)
+        {
+            if($request->name[$index] && $key != 'en')
+            {
+                $data[] = array(
+                    'translationable_type' => 'App\Model\DeliveryCompany',
+                    'translationable_id' => $deliveryCompany->id,
+                    'locale' => $key,
+                    'key' => 'name',
+                    'value' => $request->name[$index],
+                );
+            }
+        }
+        if(count($data))
+        {
+            Translation::insert($data);
+        }
+        Toastr::success(translate('Delivery Company updated successfully!'));
+        return redirect()->route('admin.delivery-company.index');
     }
 
     /**
@@ -164,6 +220,9 @@ class DeliveryCompanyController extends Controller
      */
     public function destroy(DeliveryCompany $deliveryCompany)
     {
-        //
+        $deliveryCompany->delete();
+
+        Toastr::success(translate('Delivery Company removed!'));
+        return back();
     }
 }

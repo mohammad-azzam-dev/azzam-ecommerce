@@ -71,9 +71,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('index', 'DeliveryCompanyController@index')->name('index');
             Route::get('create', 'DeliveryCompanyController@create')->name('create');
             Route::post('store', 'DeliveryCompanyController@store')->name('store');
-            Route::get('edit/{id}', 'DeliveryCompanyController@edit')->name('edit');
-            Route::post('update/{id}', 'DeliveryCompanyController@update')->name('update');
-            Route::delete('delete/{id}', 'DeliveryCompanyController@delete')->name('delete');
+            Route::get('edit/{deliveryCompany}', 'DeliveryCompanyController@edit')->name('edit');
+            Route::post('update/{deliveryCompany}', 'DeliveryCompanyController@update')->name('update');
+            Route::delete('delete/{deliveryCompany}', 'DeliveryCompanyController@destroy')->name('delete');
             Route::post('search', 'DeliveryCompanyController@search')->name('search');
         });
 

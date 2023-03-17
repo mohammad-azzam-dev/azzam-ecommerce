@@ -13,7 +13,7 @@
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0">
                     <h1 class="page-header-title"><i
-                            class="tio-filter-list"></i> {{\App\CentralLogics\translate('delivery_company')}} {{\App\CentralLogics\translate('list')}}
+                            class="tio-filter-list"></i> {{\App\CentralLogics\translate('delivery_companies')}} {{\App\CentralLogics\translate('list')}}
                         <span
                             class="badge badge-soft-dark ml-2">{{$deliveryCompanies->total()}}</span></h1>
                 </div>
@@ -108,10 +108,10 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item"
-                                                   href="{{route('admin.product.edit',[$deliveryCompany['id']])}}">{{\App\CentralLogics\translate('edit')}}</a>
+                                                   href="{{route('admin.delivery-company.edit',[$deliveryCompany['id']])}}">{{\App\CentralLogics\translate('edit')}}</a>
                                                 <a class="dropdown-item" href="javascript:"
-                                                   onclick="form_alert('product-{{$deliveryCompany['id']}}','{{\App\CentralLogics\translate('Want to delete this item ?')}}')">{{\App\CentralLogics\translate('delete')}}</a>
-                                                <form action="{{route('admin.product.delete',[$deliveryCompany['id']])}}"
+                                                   onclick="form_alert('delivery-company-{{$deliveryCompany['id']}}','{{\App\CentralLogics\translate('Want to delete this item ?')}}')">{{\App\CentralLogics\translate('delete')}}</a>
+                                                <form action="{{route('admin.delivery-company.delete',[$deliveryCompany['id']])}}"
                                                       method="post" id="product-{{$deliveryCompany['id']}}">
                                                     @csrf @method('delete')
                                                 </form>
