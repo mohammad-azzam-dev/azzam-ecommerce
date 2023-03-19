@@ -656,4 +656,8 @@
   'delivery company added successfully!' => 'Delivery company added successfully!',
   'company' => 'Company',
   'Delivery Company added successfully!' => 'Delivery Company added successfully!',
+  'Delivery company can not assign/change in that status' => 'Delivery company can not assign/change in that status',
+  'Delivery company successfully assigned/changed' => 'Delivery company successfully assigned/changed',
+  'Update Delivery Company' => 'Update Delivery Company',
+  'Delivery Company updated successfully!' => 'Delivery Company updated successfully!',
 );

@@ -137,6 +137,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('details/{id}', 'OrderController@details')->name('details');
             Route::get('status', 'OrderController@status')->name('status');
             Route::get('add-delivery-man/{order_id}/{delivery_man_id}', 'OrderController@add_delivery_man')->name('add-delivery-man');
+            Route::get('add-delivery-company/{order_id}/{delivery_company_id}', 'OrderController@assign_delivery_company')->name('add-delivery-company');
             Route::get('payment-status', 'OrderController@payment_status')->name('payment-status');
             Route::post('productStatus', 'OrderController@productStatus')->name('productStatus');
             Route::get('generate-invoice/{id}', 'OrderController@generate_invoice')->name('generate-invoice');

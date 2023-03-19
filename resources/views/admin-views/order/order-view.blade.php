@@ -76,13 +76,22 @@
                         <!-- Unfold -->
                         @if($order['order_type']!='self_pickup' && $order['order_type'] != 'pos')
                             <div class="hs-unfold">
-                                <select class="form-control" name="delivery_man_id"
-                                        onchange="addDeliveryMan(this.value)">
-                                    <option value="0">{{\App\CentralLogics\translate('select')}} {{\App\CentralLogics\translate('deliveryman')}}</option>
-                                    @foreach(\App\Model\DeliveryMan::all() as $deliveryMan)
+{{--                                <select class="form-control" name="delivery_man_id"--}}
+{{--                                        onchange="addDeliveryMan(this.value)">--}}
+{{--                                    <option value="0">{{\App\CentralLogics\translate('select')}} {{\App\CentralLogics\translate('deliveryman')}}</option>--}}
+{{--                                    @foreach(\App\Model\DeliveryMan::all() as $deliveryMan)--}}
+{{--                                        <option--}}
+{{--                                            value="{{$deliveryMan['id']}}" {{$order['delivery_man_id']==$deliveryMan['id']?'selected':''}}>--}}
+{{--                                            {{$deliveryMan['f_name'].' '.$deliveryMan['l_name']}}--}}
+{{--                                        </option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+                                <select class="form-control" name="delivery_company_id" onchange="addDeliveryCompany(this.value)">
+                                    <option value="0">{{\App\CentralLogics\translate('select')}} {{\App\CentralLogics\translate('delivery_company')}}</option>
+                                    @foreach(\App\Model\DeliveryCompany::all() as $deliveryCompany)
                                         <option
-                                            value="{{$deliveryMan['id']}}" {{$order['delivery_man_id']==$deliveryMan['id']?'selected':''}}>
-                                            {{$deliveryMan['f_name'].' '.$deliveryMan['l_name']}}
+                                            value="{{$deliveryCompany['id']}}" {{$order['delivery_company_id']==$deliveryCompany['id']?'selected':''}}>
+                                            {{$deliveryCompany['name']}}
                                         </option>
                                     @endforeach
                                 </select>
@@ -603,6 +612,39 @@
                         CloseButton: true,
                         ProgressBar: true
                     });
+                }
+            });
+        }
+
+        function addDeliveryCompany(id) {
+            $.ajax({
+                type: "GET",
+                url: '{{url('/')}}/admin/orders/add-delivery-company/{{$order['id']}}/' + id,
+                success: function (data) {
+                    if(data.status == true) {
+                        toastr.success('{{translate("Delivery company successfully assigned/changed")}}', {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                    }else{
+                        toastr.error('{{translate("Delivery company can not assign/change in that status")}}', {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                    }
+                },
+                error: function (data) {
+                    if(data.status == 200) {
+                        toastr.success('{{translate("Delivery company successfully assigned/changed")}}', {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                    } else {
+                        toastr.error('{{translate("Add valid data")}}', {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                    }
                 }
             });
         }

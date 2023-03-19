@@ -662,4 +662,6 @@
   'Save Changes' => 'Save Changes',
   'Delivery Company removed!' => 'Delivery Company removed!',
   'Remove' => 'Remove',
+  'top_selling_products' => 'Top selling products',
+  'Update product' => 'Update product',
 );

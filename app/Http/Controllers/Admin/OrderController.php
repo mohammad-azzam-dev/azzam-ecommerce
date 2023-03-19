@@ -268,4 +268,20 @@ class OrderController extends Controller
         session()->put('branch_filter', $id);
         return back();
     }
+
+    public function assign_delivery_company($order_id, $delivery_company_id)
+    {
+        if ($delivery_company_id == 0) {
+            return response()->json([], 401);
+        }
+        $order = Order::find($order_id);
+        if($order->order_status == 'delivered' || $order->order_status == 'returned' || $order->order_status == 'failed' || $order->order_status == 'canceled') {
+            return response()->json(['status' => false], 200);
+        }
+        $order->delivery_company_id = $delivery_company_id;
+        $order->save();
+
+        return response()->json(['status' => true], 200);
+    }
+
 }
