@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
+use App\Model\Admin;
+use App\Model\CustomerAddress;
+use App\Model\DeliveryCompany;
 use App\Model\Order;
 use App\Model\OrderDetail;
 use App\Model\Product;
+use App\Services\TwilioService;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -282,6 +286,57 @@ class OrderController extends Controller
         $order->save();
 
         return response()->json(['status' => true], 200);
+    }
+
+    public function send_delivery_company_whatsapp_msg(Order $order, DeliveryCompany $company)
+    {
+        $twilioService = new TwilioService();
+
+        $productNames = [];
+        $productDetails = $order->details()->pluck('product_details')->toArray();
+        foreach ($productDetails as $productDetail) {
+            $productDetail = json_decode($productDetail);
+            $productNames[] = $productDetail->name;
+        }
+
+        $productNames = implode(', ', $productNames);
+
+        $deliveryAddress = CustomerAddress::find($order->delivery_address_id);
+        $addressDetails = $deliveryAddress ? $deliveryAddress->address : '';
+        $addressType = $deliveryAddress ? $deliveryAddress->address_type : '';
+
+        // google maps link
+        $link = "https://www.google.com/maps/search/?api=1&query=".$deliveryAddress->latitude.",".$deliveryAddress->longitude;
+
+
+        $fullName = $order->customer->f_name . ' ' . $order->customer->l_name;
+        $companyMessage = self::generateWhatsappMessage(
+            $order->id,
+            $fullName,
+            $order->customer->phone,
+            $order->order_amount,
+            $productNames,
+            $addressType,
+            $addressDetails,
+            $link
+        );
+
+        $twilioService->sendWhatsAppMessage($company->phone_number, $companyMessage);
+    }
+
+    public function generateWhatsappMessage($orderId, $fullName, $phoneNumber, $total, $productsNames, $addressType, $addressDetails, $coordsLink): string
+    {
+        return "New order received:
+
+Order #$orderId
+From: $fullName
+Phone Number: $phoneNumber
+Total Amount: $total
+Product(s): $productsNames
+Address Type: $addressType
+Address: $addressDetails
+Google Maps Link: $coordsLink
+";
     }
 
 }

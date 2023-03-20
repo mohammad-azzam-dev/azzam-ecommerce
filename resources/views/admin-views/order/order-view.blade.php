@@ -647,6 +647,8 @@
                     }
                 }
             });
+
+            sendWhatsappMessage('{{translate("Do you want to send a whatsapp message to the delivery company")}} ?', id)
         }
 
         function last_location_view() {
@@ -654,6 +656,40 @@
                 CloseButton: true,
                 ProgressBar: true
             });
+        }
+
+        function sendWhatsappMessage(message, id)
+        {
+            Swal.fire({
+                title: '{{translate("Delivery company successfully assigned/changed")}}',
+                text: message,
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: 'default',
+                confirmButtonColor: '#673ab7',
+                cancelButtonText: '<?php echo e(translate("No")); ?>',
+                confirmButtonText: '<?php echo e(translate("Yes")); ?>',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "GET",
+                        url: '{{url('/')}}/admin/orders/send-delivery-company-whatsapp-msg/{{$order['id']}}/' + id,
+                        success: function (data) {
+                            toastr.success('{{translate("Whatsapp message sent successfully!")}}', {
+                                CloseButton: true,
+                                ProgressBar: true
+                            });
+                        },
+                        error: function (data) {
+                            toastr.error('{{translate("Cannot send whatsapp message right now, please try again later.")}}', {
+                                CloseButton: true,
+                                ProgressBar: true
+                            });
+                        }
+                    });
+                }
+            })
         }
     </script>
 @endpush

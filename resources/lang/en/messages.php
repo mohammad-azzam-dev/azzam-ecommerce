@@ -660,4 +660,6 @@
   'Delivery company successfully assigned/changed' => 'Delivery company successfully assigned/changed',
   'Update Delivery Company' => 'Update Delivery Company',
   'Delivery Company updated successfully!' => 'Delivery Company updated successfully!',
+  'Whatsapp message sent successfully!' => 'Whatsapp message sent successfully!',
+  'Cannot send whatsapp message right now, please try again later.' => 'Cannot send whatsapp message right now  please try again later.',
 );

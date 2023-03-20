@@ -664,4 +664,9 @@
   'Remove' => 'Remove',
   'top_selling_products' => 'Top selling products',
   'Update product' => 'Update product',
+  'earnings' => 'Earnings',
+  'Whatsapp message sent successfully!' => 'Whatsapp message sent successfully!',
+  'Delivery company successfully assigned/changed' => 'Delivery company successfully assigned/changed',
+  'Do you want to send a whatsapp message to the delivery company ?' => 'Do you want to send a whatsapp message to the delivery company  ',
+  'Do you want to send a whatsapp message to the delivery company' => 'Do you want to send a whatsapp message to the delivery company',
 );
