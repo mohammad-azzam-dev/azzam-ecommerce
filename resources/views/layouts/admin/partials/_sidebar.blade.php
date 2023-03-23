@@ -274,6 +274,19 @@
 
                         <!-- Pages -->
                         <li
+                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/addon*') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                               href="{{ route('admin.addon.index') }}">
+                                <i class="tio-apps nav-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    {{ \App\CentralLogics\translate('addon') }}
+                                </span>
+                            </a>
+                        </li>
+                        <!-- End Pages -->
+
+                        <!-- Pages -->
+                        <li
                             class="navbar-vertical-aside-has-menu {{ Request::is('admin/product*') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
                                 <i class="tio-premium-outlined nav-icon"></i>

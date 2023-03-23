@@ -59,6 +59,18 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::delete('delete/{id}', 'AttributeController@delete')->name('delete');
         });
 
+        Route::group(['prefix' => 'addon', 'as' => 'addon.'], function () {
+            Route::get('index', 'AddonController@index')->name('index');
+            Route::get('create', 'AddonController@create')->name('create');
+            Route::post('store', 'AddonController@store')->name('store');
+            Route::get('edit/{addon}', 'AddonController@edit')->name('edit');
+            Route::post('update/{addon}', 'AddonController@update')->name('update');
+            Route::delete('destroy/{addon}', 'AddonController@destroy')->name('destroy');
+            Route::post('addon-search', 'AddonController@search')->name('search');
+            Route::get('addon-status/{addon}/{status}', 'AddonController@update_status')->name('update-status');
+        });
+
+
         Route::group(['prefix' => 'branch', 'as' => 'branch.'], function () {
             Route::get('add-new', 'BranchController@index')->name('add-new');
             Route::post('store', 'BranchController@store')->name('store');
