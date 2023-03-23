@@ -279,7 +279,7 @@
                                href="{{ route('admin.addon.index') }}">
                                 <i class="tio-apps nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{ \App\CentralLogics\translate('addon') }}
+                                    {{ \App\CentralLogics\translate('addons') }}
                                 </span>
                             </a>
                         </li>
