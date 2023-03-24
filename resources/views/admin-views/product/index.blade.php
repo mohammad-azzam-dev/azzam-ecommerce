@@ -181,6 +181,23 @@
                             </div>--}}
                         </div>
 
+                        {{-- Addons--}}
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label class="input-label"
+                                           for="exampleFormControlSelect1">{{\App\CentralLogics\translate('addons')}}<span
+                                            class="input-label-secondary">*</span></label>
+                                    <select name="addons_ids[]" class="form-control js-select2-custom" multiple>
+                                        <option value="">---{{\App\CentralLogics\translate('select')}}---</option>
+                                        @foreach($addons as $addon)
+                                            <option value="{{$addon['id']}}">{{$addon['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row"
                              style="border: 1px solid #80808045; border-radius: 10px;padding-top: 10px;margin: 1px">
                             <div class="col-12">

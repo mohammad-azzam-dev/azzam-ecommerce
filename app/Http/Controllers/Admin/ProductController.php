@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Addon;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Model\Category;
@@ -68,7 +69,9 @@ class ProductController extends Controller
     public function index()
     {
         $categories = Category::where(['position' => 0])->get();
-        return view('admin-views.product.index', compact('categories'));
+        $addons = Addon::all();
+
+        return view('admin-views.product.index', compact('categories', 'addons'));
     }
 
     public function list(Request $request)
@@ -246,6 +249,8 @@ class ProductController extends Controller
         $p->attributes = $request->has('attribute_id') ? json_encode($request->attribute_id) : json_encode([]);
         $p->save();
 
+        $p->addons()->sync($request->addons_ids);
+
         $data = [];
         foreach ($request->lang as $index => $key) {
             if ($request->name[$index] && $key != 'en') {
@@ -268,7 +273,6 @@ class ProductController extends Controller
             }
         }
 
-
         Translation::insert($data);
 
         return response()->json([], 200);
@@ -279,7 +283,9 @@ class ProductController extends Controller
         $product = Product::withoutGlobalScopes()->with('translations')->find($id);
         $product_category = json_decode($product->category_ids);
         $categories = Category::where(['parent_id' => 0])->get();
-        return view('admin-views.product.edit', compact('product', 'product_category', 'categories'));
+        $addons = Addon::all();
+
+        return view('admin-views.product.edit', compact('product', 'product_category', 'categories', 'addons'));
     }
 
     public function status(Request $request)
@@ -428,6 +434,7 @@ class ProductController extends Controller
         $p->attributes = $request->has('attribute_id') ? json_encode($request->attribute_id) : json_encode([]);
         $p->save();
 
+        $p->addons()->sync($request->addons_ids);
 
         foreach ($request->lang as $index => $key) {
             if ($request->name[$index] && $key != 'en') {

@@ -2,9 +2,9 @@
 
 namespace App\Model;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
@@ -55,5 +55,10 @@ class Product extends Model
                 return $query->where('locale', app()->getLocale());
             }]);
         });
+    }
+
+    public function addons()
+    {
+        return $this->belongsToMany(\App\Model\Addon::class)->using(AddonProduct::class);
     }
 }

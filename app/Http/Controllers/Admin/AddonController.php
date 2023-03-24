@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Addon;
+use App\Model\Addon;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddonStoreRequest;
@@ -90,7 +90,7 @@ class AddonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Addon  $addon
+     * @param  \App\Model\Addon  $addon
      * @return \Illuminate\Http\Response
      */
     public function edit(Addon $addon)
@@ -102,7 +102,7 @@ class AddonController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Addon  $addon
+     * @param  \App\Model\Addon  $addon
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(AddonStoreRequest $request, Addon $addon)
@@ -116,7 +116,7 @@ class AddonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Addon  $addon
+     * @param  \App\Model\Addon  $addon
      * @return \Illuminate\Http\Response
      */
     public function destroy(Addon $addon)

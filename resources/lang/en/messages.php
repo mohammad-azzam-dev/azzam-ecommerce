@@ -672,4 +672,8 @@
   'Update Addon' => 'Update Addon',
   'Addon updated successfully!' => 'Addon updated successfully!',
   'Addon removed!' => 'Addon removed!',
+  'product updated successfully!' => 'Product updated successfully!',
+  'Remove' => 'Remove',
+  'Update product' => 'Update product',
+  'Variant Stock' => 'Variant Stock',
 );

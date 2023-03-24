@@ -114,7 +114,7 @@
                                     @endif
 
                                     @foreach(json_decode($detail['add_on_ids'],true) as $key2 =>$id)
-                                        @php($addon=\App\Model\AddOn::find($id))
+                                        @php($addon=\App\Model\Addon::find($id))
                                         @if($key2==0)<strong><u>Addons : </u></strong>@endif
 
                                         @if($add_on_qtys==null)
