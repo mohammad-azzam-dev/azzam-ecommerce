@@ -688,4 +688,6 @@
   'Email' => 'Email',
   '#INVOICE' => '#INVOICE',
   'Invoice' => 'Invoice',
+  'Addon Cost' => 'Addon Cost',
+  'Product updated!' => 'Product updated!',
 );

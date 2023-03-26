@@ -10,7 +10,7 @@ class ProductLogic
 {
     public static function get_product($id)
     {
-        return Product::active()->withCount(['wishlist'])->with(['rating'])->where('id', $id)->first();
+        return Product::active()->withCount(['wishlist'])->with(['rating', 'addons'])->where('id', $id)->first();
     }
 
     public static function get_latest_products($limit = 10, $offset = 1)

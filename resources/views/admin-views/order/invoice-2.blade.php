@@ -183,7 +183,7 @@
                                     <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total) }}</dd>
                                     <dt class="col-sm-6">{{ translate('Tax / VAT') }}:</dt>
                                     <dd class="col-sm-6">{{ Helpers::set_symbol($total_tax) }}</dd>
-                                    <dt class="col-6">Addon Cost:</dt>
+                                    <dt class="col-6">{{ translate('Addon Cost') }}:</dt>
                                     <dd class="col-6">
                                         {{Helpers::set_symbol($add_ons_cost) }}
                                         <hr>

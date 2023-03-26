@@ -26,6 +26,7 @@
                     @csrf
                     @php($language=\App\Model\BusinessSetting::where('key','language')->first())
                     @php($language = $language->value ?? null)
+                    @php($selectedAddonsIds = $product->addons()->pluck('addons.id')->toArray())
                     @if($language)
                         <ul class="nav nav-tabs mb-4">
 
@@ -209,7 +210,7 @@
                                     <label class="input-label" for="addons_ids">{{\App\CentralLogics\translate('addons')}}</label>
                                     <select name="addons_ids[]" id="addons_ids" class="form-control js-select2-custom" multiple>
                                         @foreach($addons as $addon)
-                                            <option value="{{$addon['id']}}">{{$addon['name']}}</option>
+                                            <option value="{{$addon['id']}}" {{ in_array($addon['id'], $selectedAddonsIds) ? 'selected' : '' }} >{{$addon['name']}}</option>
                                         @endforeach
                                     </select>
                                 </div>

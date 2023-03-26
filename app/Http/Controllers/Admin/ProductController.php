@@ -275,12 +275,13 @@ class ProductController extends Controller
 
         Translation::insert($data);
 
-        return response()->json([], 200);
+        Toastr::success(translate('Product updated!'));
+        return back();
     }
 
     public function edit($id)
     {
-        $product = Product::withoutGlobalScopes()->with('translations')->find($id);
+        $product = Product::withoutGlobalScopes()->with(['translations', 'addons'])->find($id);
         $product_category = json_decode($product->category_ids);
         $categories = Category::where(['parent_id' => 0])->get();
         $addons = Addon::all();
@@ -461,7 +462,8 @@ class ProductController extends Controller
             }
         }
 
-        return response()->json([], 200);
+        Toastr::success(translate('Product updated!'));
+        return back();
     }
 
     public function delete(Request $request)
