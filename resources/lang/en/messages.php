@@ -676,4 +676,5 @@
   'Remove' => 'Remove',
   'Update product' => 'Update product',
   'Variant Stock' => 'Variant Stock',
+  'Do you want to send a whatsapp message to the delivery company' => 'Do you want to send a whatsapp message to the delivery company',
 );

@@ -98,6 +98,7 @@
                     @php($sub_total=0)
                     @php($total_tax=0)
                     @php($total_dis_on_pro=0)
+                    @php($add_ons_cost=0)
                     @foreach($order->details as $detail)
                         @if($detail->product)
                             <!-- Media -->
@@ -123,6 +124,28 @@
                                                         </div>
                                                     @endforeach
                                                 @endif
+
+                                                @isset($detail['addons_ids'])
+                                                    @php($add_on_qtys=json_decode($detail['addons_quantities'],true))
+                                                    @foreach(json_decode($detail['addons_ids'],true) as $key2 =>$id)
+                                                        @php($addon=\App\Model\Addon::find($id))
+                                                        @if($key2==0)<strong><u>Addons : </u></strong>@endif
+
+                                                        @if($add_on_qtys==null)
+                                                            @php($add_on_qty=1)
+                                                        @else
+                                                            @php($add_on_qty=$add_on_qtys[$key2])
+                                                        @endif
+
+                                                        <div class="font-size-sm text-body">
+                                                            <span>{{$addon['name']}} :  </span>
+                                                            <span class="font-weight-bold">
+                                                                {{$add_on_qty}} x {{$addon['price']}} {{\App\CentralLogics\Helpers::currency_symbol()}}
+                                                            </span>
+                                                        </div>
+                                                        @php($add_ons_cost+=$addon['price']*$add_on_qty)
+                                                    @endforeach
+                                                @endisset
                                             </div>
 
                                             <div class="col col-md-2 align-self-center">
@@ -160,10 +183,15 @@
                                     <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total) }}</dd>
                                     <dt class="col-sm-6">{{ translate('Tax / VAT') }}:</dt>
                                     <dd class="col-sm-6">{{ Helpers::set_symbol($total_tax) }}</dd>
+                                    <dt class="col-6">Addon Cost:</dt>
+                                    <dd class="col-6">
+                                        {{Helpers::set_symbol($add_ons_cost) }}
+                                        <hr>
+                                    </dd>
 
                                     <dt class="col-sm-6">{{ translate('Subtotal') }}:</dt>
-                                    <dd class="col-sm-6">
-                                        {{ Helpers::set_symbol($sub_total+$total_tax) }}</dd>
+                                    <dd class="col-6">
+                                        {{Helpers::set_symbol($sub_total+$total_tax+$add_ons_cost) }}</dd>
                                     <dt class="col-sm-6">{{ translate('Coupon Discount') }}:</dt>
                                     <dd class="col-sm-6">
                                         - {{ Helpers::set_symbol($order['coupon_discount_amount']) }}</dd>
@@ -182,7 +210,7 @@
                                     </dd>
 
                                     <dt class="col-sm-6">{{ translate('Total') }}:</dt>
-                                    <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total+$del_c+$total_tax-$order['coupon_discount_amount']-$order['extra_discount']) }}</dd>
+                                    <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total+$del_c+$total_tax+$add_ons_cost-$order['coupon_discount_amount']-$order['extra_discount']) }}</dd>
                                 </dl>
                                 <!-- End Row -->
                             </div>

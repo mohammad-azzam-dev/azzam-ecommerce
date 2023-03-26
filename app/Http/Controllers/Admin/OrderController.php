@@ -326,17 +326,19 @@ class OrderController extends Controller
 
     public function generateWhatsappMessage($orderId, $fullName, $phoneNumber, $total, $productsNames, $addressType, $addressDetails, $coordsLink): string
     {
-        return "New order received:
+        $total = Helpers::set_symbol($total);
 
-Order #$orderId
-From: $fullName
-Phone Number: $phoneNumber
-Total Amount: $total
-Product(s): $productsNames
-Address Type: $addressType
-Address: $addressDetails
-Google Maps Link: $coordsLink
-";
+        $message = "New order received:\n\n";
+        $message .= "Order #$orderId\n";
+        $message .= "From: $fullName\n";
+        $message .= "Phone Number: $phoneNumber\n";
+        $message .= "Total Amount: $total\n";
+        $message .= "Product(s): $productsNames\n";
+        $message .= "Address Type: $addressType\n";
+        $message .= "Address: $addressDetails\n";
+        $message .= "Google Maps Link: $coordsLink\n";
+
+        return $message;
     }
 
 }

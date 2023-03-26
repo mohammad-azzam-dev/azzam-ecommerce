@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\CentralLogics\Helpers;
 use App\CentralLogics\OrderLogic;
 use App\Http\Controllers\Controller;
+use App\Model\Addon;
 use App\Model\Admin;
 use App\Model\BusinessSetting;
 use App\Model\CustomerAddress;
@@ -100,6 +101,14 @@ class OrderController extends Controller
                 } else {
                     $price = $product['price'];
                 }
+
+                if ( isset($c['addons_ids']) ) {
+                    if ( count($c['addons_ids']) ) {
+                        $addonsPrice = Addon::whereIn('id', $c['addons_ids'])->sum('price');
+                        $price += $addonsPrice;
+                    }
+                }
+
                 $or_d = [
                     'order_id' => $o_id,
                     'product_id' => $c['product_id'],
@@ -113,6 +122,7 @@ class OrderController extends Controller
                     'variant' => json_encode($c['variant']),
                     'variation' => json_encode($c['variation']),
                     'is_stock_decreased' => 1,
+                    'addons_ids' => isset($c['addons_ids']) ? json_encode($c['addons_ids']) : [],
                     'created_at' => now(),
                     'updated_at' => now()
                 ];
@@ -172,19 +182,17 @@ class OrderController extends Controller
             $admin = Admin::find(1);
             $adminPhoneNumber = $admin->phone;
 
-            $adminMessage = "New order received:
-
-Order #{$o_id}
-From: {$request->user()->f_name} {$request->user()->l_name}
-Phone Number: {$request->user()->phone}
-Total Amount: {$request['order_amount']}
-Product(s): {$productNames}
-Address Type: {$addressType}
-Address: {$addressDetails}
-Google Maps Link: $link
-";
-
-            $adminMessage = trim($adminMessage);
+            $fullName = $request->user()->f_name . ' ' . $request->user()->l_name;
+            $adminMessage = \App\Http\Controllers\Admin\OrderController::generateWhatsappMessage(
+                $o_id,
+                $fullName,
+                $request->user()->phone,
+                $request['order_amount'],
+                $productNames,
+                $addressType,
+                $addressDetails,
+                $link
+            );
 
             $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
