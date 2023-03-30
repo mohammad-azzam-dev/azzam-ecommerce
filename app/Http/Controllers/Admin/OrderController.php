@@ -336,7 +336,9 @@ class OrderController extends Controller
         $message .= "Product(s): $productsNames\n";
         $message .= "Address Type: $addressType\n";
         $message .= "Address: $addressDetails\n";
-        $message .= "Google Maps Link: $coordsLink\n";
+        $message .= "Google Maps Link: $coordsLink\n\n";
+        $message .= "Thank you\n";
+        $message .= "Have a good day!\n";
 
         return $message;
     }
