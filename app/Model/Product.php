@@ -59,6 +59,6 @@ class Product extends Model
 
     public function addons()
     {
-        return $this->belongsToMany(\App\Model\Addon::class)->using(AddonProduct::class);
+        return $this->belongsToMany(\App\Model\Addon::class)->using(AddonProduct::class)->where('is_active', 1);
     }
 }

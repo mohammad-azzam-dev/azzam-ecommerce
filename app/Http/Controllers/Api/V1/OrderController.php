@@ -12,6 +12,7 @@ use App\Model\CustomerAddress;
 use App\Model\DMReview;
 use App\Model\Order;
 use App\Model\OrderDetail;
+use App\Model\OrderDetailAddon;
 use App\Model\Product;
 use App\Model\Review;
 use App\Services\TwilioService;
@@ -102,13 +103,6 @@ class OrderController extends Controller
                     $price = $product['price'];
                 }
 
-                if ( isset($c['addons_ids']) ) {
-                    if ( count($c['addons_ids']) ) {
-                        $addonsPrice = Addon::whereIn('id', $c['addons_ids'])->sum('price');
-                        $price += $addonsPrice;
-                    }
-                }
-
                 $or_d = [
                     'order_id' => $o_id,
                     'product_id' => $c['product_id'],
@@ -147,7 +141,30 @@ class OrderController extends Controller
                     ]);
                 }
 
-                DB::table('order_details')->insert($or_d);
+                $orderDetailId = DB::table('order_details')->insertGetId($or_d);
+
+                if ( isset($c['addons_details']) && count($c['addons_details']) ) {
+                    $orderDetailAddons = [];
+                    foreach ($c['addons_details'] as $addonDetail) {
+                        $addon = Addon::find($addonDetail['id']);
+
+                        if($addon) {
+                            $orderDetailAddons[] = [
+                                'order_detail_id' => $orderDetailId,
+                                'addon_id' => $addon->id,
+                                'addon_name' => $addon->name,
+                                'price' => $addon->price,
+                                'quantity' => $addonDetail['quantity'] ?? 1,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ];
+                        }
+                    }
+
+                    OrderDetailAddon::insert($orderDetailAddons);
+                }
+
+
             }
 
             $fcm_token = $request->user()->cm_firebase_token;

@@ -31,4 +31,9 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Review::class, 'order_id','order_id');
     }
+
+    public function addons()
+    {
+        return $this->hasMany(OrderDetailAddon::class);
+    }
 }

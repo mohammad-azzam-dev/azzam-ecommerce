@@ -125,27 +125,18 @@
                                                     @endforeach
                                                 @endif
 
-                                                @isset($detail['addons_ids'])
-                                                    @php($add_on_qtys=json_decode($detail['addons_quantities'],true))
-                                                    @foreach(json_decode($detail['addons_ids'],true) as $key2 =>$id)
-                                                        @php($addon=\App\Model\Addon::find($id))
+                                                @if( $detail->addons()->exists() )
+                                                    @foreach($detail->addons as $key2 => $addon)
                                                         @if($key2==0)<strong><u>Addons : </u></strong>@endif
-
-                                                        @if($add_on_qtys==null)
-                                                            @php($add_on_qty=1)
-                                                        @else
-                                                            @php($add_on_qty=$add_on_qtys[$key2])
-                                                        @endif
-
-                                                        <div class="font-size-sm text-body">
-                                                            <span>{{$addon['name']}} :  </span>
-                                                            <span class="font-weight-bold">
-                                                                {{$add_on_qty}} x {{$addon['price']}} {{\App\CentralLogics\Helpers::currency_symbol()}}
-                                                            </span>
-                                                        </div>
-                                                        @php($add_ons_cost+=$addon['price']*$add_on_qty)
+                                                            <div class="font-size-sm text-body">
+                                                                <span>{{ $addon['addon_name'] }} :  </span>
+                                                                <span class="font-weight-bold">
+                                                                    {{ $addon['quantity'] }} x {{ $addon['price'] }} {{\App\CentralLogics\Helpers::currency_symbol()}}
+                                                                </span>
+                                                            </div>
+                                                        @php($add_ons_cost += $addon['price'] * $addon['quantity'])
                                                     @endforeach
-                                                @endisset
+                                                @endif
                                             </div>
 
                                             <div class="col col-md-2 align-self-center">
@@ -183,7 +174,7 @@
                                     <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total) }}</dd>
                                     <dt class="col-sm-6">{{ translate('Tax / VAT') }}:</dt>
                                     <dd class="col-sm-6">{{ Helpers::set_symbol($total_tax) }}</dd>
-                                    <dt class="col-6">{{ translate('Addon Cost') }}:</dt>
+                                    <dt class="col-6">{{ translate('Addons Cost') }}:</dt>
                                     <dd class="col-6">
                                         {{Helpers::set_symbol($add_ons_cost) }}
                                         <hr>

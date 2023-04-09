@@ -681,4 +681,6 @@
   'category Update' => 'Category Update',
   'Sub Category Update' => 'Sub Category Update',
   'Update category' => 'Update category',
+  'Addons Cost' => 'Addons Cost',
+  'Product updated!' => 'Product updated!',
 );
