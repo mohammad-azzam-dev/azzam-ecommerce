@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('Update Addon'))
+@section('title', translate('Edit Addon'))
 
 @push('css_or_js')
 
@@ -22,29 +22,76 @@
                 <form action="{{route('admin.addon.update',[$addon['id']])}}" method="post">
                     @csrf
 
-                    <div class="row">
+                    @csrf
+                    @php($language=\App\Model\BusinessSetting::where('key','language')->first())
+                    @php($language = $language->value ?? null)
+                    @php($default_lang = 'en')
 
-                        {{-- Name --}}
-                        <div class="col-6">
-                            <div class="form-group lang_form" id="form">
-                                <label class="input-label" for="exampleFormControlInput1">{{\App\CentralLogics\translate('name')}}</label>
-                                <input type="text" name="name" value="{{ $addon['name'] }}" class="form-control" placeholder="Name">
+                    @if($language)
+                        @php($default_lang = json_decode($language)[0])
+                        <ul class="nav nav-tabs mb-4">
+                            @foreach(json_decode($language) as $lang)
+                                <li class="nav-item">
+                                    <a class="nav-link lang_link {{$lang == $default_lang? 'active':''}}" href="#" id="{{$lang}}-link">{{\App\CentralLogics\Helpers::get_language_name($lang).'('.strtoupper($lang).')'}}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="row">
+                            <div class="col-6">
+                                @foreach(json_decode($language) as $lang)
+
+                                    <?php
+                                    if (count($addon['translations'])) {
+                                        $translate = [];
+                                        foreach ($addon['translations'] as $t) {
+                                            if ($t->locale == $lang && $t->key == "name") {
+                                                $translate[$lang]['name'] = $t->value;
+                                            }
+                                        }
+                                    }
+                                    ?>
+
+                                    <div class="form-group {{$lang != $default_lang ? 'd-none':''}} lang_form" id="{{$lang}}-form">
+                                        <label class="input-label" for="exampleFormControlInput1">{{\App\CentralLogics\translate('name')}} ({{strtoupper($lang)}})</label>
+                                        <input type="text" name="name[]" class="form-control" placeholder="New Attribute" {{$lang == $default_lang? 'required':''}}
+                                            value="{{ $lang == $default_lang ? $addon['name'] : ($translate[$lang]['name']??'') }}"
+                                            oninvalid="document.getElementById('en-link').click()" maxlength="255">
+                                    </div>
+                                    <input type="hidden" name="lang[]" value="{{$lang}}">
+                                @endforeach
+                            </div>
+                            {{-- Price --}}
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="input-label"
+                                           for="exampleFormControlInput1">{{\App\CentralLogics\translate('price')}}</label>
+                                    <input type="text" value="{{ $addon['price'] }}" name="price"
+                                           class="form-control"
+                                           placeholder="Price" required>
+                                </div>
                             </div>
                         </div>
-
-                        {{-- Price --}}
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="input-label"
-                                       for="exampleFormControlInput1">{{\App\CentralLogics\translate('price')}}</label>
-                                <input type="text" value="{{ $addon['price'] }}" name="price"
-                                       class="form-control"
-                                       placeholder="Price" required>
+                    @else
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group {{$lang != $default_lang ? 'd-none':''}} lang_form" id="{{$lang}}-form">
+                                    <label class="input-label" for="exampleFormControlInput1">{{\App\CentralLogics\translate('name')}} ({{strtoupper($lang)}})</label>
+                                    <input type="text" name="name[]" class="form-control" placeholder="New Attribute" {{$lang == $default_lang? 'required':''}}>
+                                </div>
+                                <input type="hidden" name="lang[]" value="{{$lang}}">
+                            </div>
+                            {{-- Price --}}
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="input-label"
+                                           for="exampleFormControlInput1">{{\App\CentralLogics\translate('price')}}</label>
+                                    <input type="text" value="{{ $addon['price'] }}" name="price"
+                                           class="form-control"
+                                           placeholder="Price" required>
+                                </div>
                             </div>
                         </div>
-
-
-                    </div>
+                    @endif
 
                     <button type="submit" class="btn btn-primary">{{\App\CentralLogics\translate('update')}}</button>
                 </form>
@@ -56,5 +103,27 @@
 @endsection
 
 @push('script_2')
+
+    <script>
+        $(".lang_link").click(function(e){
+            e.preventDefault();
+            $(".lang_link").removeClass('active');
+            $(".lang_form").addClass('d-none');
+            $(this).addClass('active');
+
+            let form_id = this.id;
+            let lang = form_id.split("-")[0];
+            console.log(lang);
+            $("#"+lang+"-form").removeClass('d-none');
+            if(lang == '{{$default_lang}}')
+            {
+                $(".from_part_2").removeClass('d-none');
+            }
+            else
+            {
+                $(".from_part_2").addClass('d-none');
+            }
+        });
+    </script>
 
 @endpush

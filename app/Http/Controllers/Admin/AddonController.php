@@ -7,8 +7,10 @@ use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddonStoreRequest;
 use App\Model\DeliveryCompany;
+use App\Model\Translation;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AddonController extends Controller
 {
@@ -78,9 +80,36 @@ class AddonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddonStoreRequest $request)
+    public function store(Request $request)
     {
-        Addon::create($request->validated());
+        $request->validate([
+            'name' => ['required', 'unique:addons,name'],
+            'price' => ['required', 'numeric']
+        ]);
+
+        $addon = Addon::create([
+            'name' => $request->name[array_search('en', $request->lang)],
+            'price' => $request->price,
+        ]);
+
+        $data = [];
+        foreach($request->lang as $index=>$key)
+        {
+            if($request->name[$index] && $key != 'en')
+            {
+                $data[] = array(
+                    'translationable_type' => 'App\Model\Addon',
+                    'translationable_id' => $addon->id,
+                    'locale' => $key,
+                    'key' => 'name',
+                    'value' => $request->name[$index],
+                );
+            }
+        }
+        if(count($data))
+        {
+            Translation::insert($data);
+        }
 
         Toastr::success(translate('Addon added successfully!'));
         return redirect()->route('admin.addon.index');
@@ -95,6 +124,7 @@ class AddonController extends Controller
      */
     public function edit(Addon $addon)
     {
+        $addon->load('translations');
         return view('admin-views.addon.edit', compact('addon'));
     }
 
@@ -105,9 +135,31 @@ class AddonController extends Controller
      * @param  \App\Model\Addon  $addon
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(AddonStoreRequest $request, Addon $addon)
+    public function update(Request $request, Addon $addon)
     {
-        $addon->update($request->validated());
+        $request->validate([
+            'name' => ['required', Rule::unique('addons')->ignore($addon->id)],
+            'price' => ['required', 'numeric']
+        ]);
+
+        $addon->update([
+            'name' => $request->name[array_search('en', $request->lang)],
+            'price' => $request->price,
+        ]);
+
+        foreach($request->lang as $index=>$key)
+        {
+            if($request->name[$index] && $key != 'en')
+            {
+                Translation::updateOrInsert(
+                    ['translationable_type'  => 'App\Model\Addon',
+                        'translationable_id'    => $addon->id,
+                        'locale'                => $key,
+                        'key'                   => 'name'],
+                    ['value'                 => $request->name[$index]]
+                );
+            }
+        }
 
         Toastr::success(translate('Addon updated successfully!'));
         return redirect()->route('admin.addon.index');

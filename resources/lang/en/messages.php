@@ -677,4 +677,8 @@
   'Update product' => 'Update product',
   'Variant Stock' => 'Variant Stock',
   'Do you want to send a whatsapp message to the delivery company' => 'Do you want to send a whatsapp message to the delivery company',
+  'Edit Addon' => 'Edit Addon',
+  'category Update' => 'Category Update',
+  'Sub Category Update' => 'Sub Category Update',
+  'Update category' => 'Update category',
 );
