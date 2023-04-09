@@ -116,8 +116,6 @@ class OrderController extends Controller
                     'variant' => json_encode($c['variant']),
                     'variation' => json_encode($c['variation']),
                     'is_stock_decreased' => 1,
-                    'addons_ids' => isset($c['addons_ids']) ? json_encode($c['addons_ids']) : [],
-                    'addons_quantities' => isset($c['addons_quantities']) ? json_encode($c['addons_quantities']) : [],
                     'created_at' => now(),
                     'updated_at' => now()
                 ];
