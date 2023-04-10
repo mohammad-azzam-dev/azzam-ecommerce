@@ -324,7 +324,7 @@ class OrderController extends Controller
         $twilioService->sendWhatsAppMessage($company->phone_number, $companyMessage);
     }
 
-    public function generateWhatsappMessage($orderId, $fullName, $phoneNumber, $total, $productsNames, $addressType, $addressDetails, $coordsLink): string
+    public static function generateWhatsappMessage($orderId, $fullName, $phoneNumber, $total, $productsNames, $addressType, $addressDetails, $coordsLink): string
     {
         $total = Helpers::set_symbol($total);
 
