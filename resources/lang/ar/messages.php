@@ -690,4 +690,5 @@
   'Invoice' => 'Invoice',
   'Addons Cost' => 'تكلفة الإضافات',
   'Product updated!' => 'Product updated!',
+  'We will contact you soon.' => 'We will contact you soon.',
 );

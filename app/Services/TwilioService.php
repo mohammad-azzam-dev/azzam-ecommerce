@@ -36,4 +36,22 @@ class TwilioService
 
         }
     }
+
+    public function sendMedia($to, $publicUrl)
+    {
+        if( $this->config['status'] == 1 && $this->accountSid && $this->authToken && $this->twilioPhoneNumber ) {
+
+            $client = new Client($this->accountSid, $this->authToken);
+
+            $client->messages->create(
+                "whatsapp:$to",
+                [
+                    'from' => "whatsapp:{$this->twilioPhoneNumber}",
+                    'body' => 'Here is your invoice',
+                    'mediaUrl' => $publicUrl
+                ]
+            );
+
+        }
+    }
 }
