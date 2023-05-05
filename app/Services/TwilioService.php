@@ -36,4 +36,18 @@ class TwilioService
 
         }
     }
+
+    public function call($from, $to, $url)
+    {
+        $client = new Client($this->accountSid, $this->authToken);
+
+        $client->calls->create(
+            $to,
+            $this->twilioPhoneNumber,
+            [
+                'url' => $url,
+                'method' => 'GET',
+            ]
+        );
+    }
 }
