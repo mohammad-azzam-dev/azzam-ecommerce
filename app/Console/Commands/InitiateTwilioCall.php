@@ -41,7 +41,7 @@ class InitiateTwilioCall extends Command
         $twilioService = new TwilioService();
 
         $url = url('twilio/call');
-        $twilioService->call('133', '+96171739279', $url);
+        $twilioService->call('133', '+96596698826', $url);
 
     }
 }
