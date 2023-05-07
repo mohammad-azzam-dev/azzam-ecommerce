@@ -59,10 +59,10 @@ Route::post('/ipn', 'SslCommerzPaymentController@ipn');
 
 // twilio call xml
 Route::get('/twilio/call', function () {
-    $twiml = new Twilio\TwiML\VoiceResponse();
-    $twiml->say('Send my money.', ['voice' => 'alice']);
-    return response($twiml, 200)
-        ->header('Content-Type', 'application/xml');
+    $response = new Twilio\TwiML\VoiceResponse();
+    $voiceUrl = \Illuminate\Support\Facades\Storage::url('audio/twilio-voice.mp3');
+    $response->play($voiceUrl);
+    return $response;
 });
 
 /*paypal*/
