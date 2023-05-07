@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Model\TwilioCalls;
 use App\Services\TwilioService;
 use Illuminate\Console\Command;
 
@@ -41,7 +42,19 @@ class InitiateTwilioCall extends Command
         $twilioService = new TwilioService();
 
         $url = url('twilio/call');
-        $twilioService->call('133', '+96171739279', $url);
 
+        $twilioNumbers = ['+17123838616', '+14752646644', '+17622426069'];
+
+        $twilioCall = TwilioCalls::find(1);
+        $lastUsedIndex = $twilioCall->last_used_index ?? 0;
+
+        $nextIndex = ($lastUsedIndex + 1) % count($twilioNumbers);
+        $nextTwilioNumber = $twilioNumbers[$nextIndex];
+
+        $twilioService->call($nextTwilioNumber, '+96171739279', $url);
+
+        $twilioCall->update([
+            'last_used_index' => $lastUsedIndex,
+        ]);
     }
 }
