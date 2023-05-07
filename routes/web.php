@@ -59,8 +59,8 @@ Route::post('/ipn', 'SslCommerzPaymentController@ipn');
 
 // twilio call xml
 Route::get('/twilio/call', function () {
-    $response = new Twilio\TwiML\VoiceResponse();
-    $voiceUrl = \Illuminate\Support\Facades\Storage::url('audio/twilio-voice.mp3');
+    $response = new \Twilio\TwiML\VoiceResponse();
+    $voiceUrl = asset('public/audio/twilio-voice.mp3');
     $response->play($voiceUrl);
     return $response;
 });
