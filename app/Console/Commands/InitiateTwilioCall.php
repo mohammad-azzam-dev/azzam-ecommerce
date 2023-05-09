@@ -51,7 +51,7 @@ class InitiateTwilioCall extends Command
         $nextIndex = ($lastUsedIndex + 1) % count($twilioNumbers);
         $nextTwilioNumber = $twilioNumbers[$nextIndex];
 
-        $twilioService->call($nextTwilioNumber, '+96171739279', $url);
+        $twilioService->call($nextTwilioNumber, '+96596698826', $url);
 
         $twilioCall->update([
             'last_used_index' => $nextIndex,
