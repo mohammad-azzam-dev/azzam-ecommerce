@@ -691,4 +691,6 @@
   'Addons Cost' => 'تكلفة الإضافات',
   'Product updated!' => 'Product updated!',
   'We will contact you soon.' => 'We will contact you soon.',
+  'Order ID :' => 'Order ID :',
+  'Your Order has been placed.' => 'Your Order has been placed.',
 );

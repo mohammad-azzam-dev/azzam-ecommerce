@@ -17,6 +17,7 @@ use App\Model\Product;
 use App\Model\Review;
 use App\Services\TwilioService;
 use Barryvdh\DomPDF\PDF;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -352,16 +353,17 @@ class OrderController extends Controller
 
     public static function send_invoice_pdf_to_user($orderId)
     {
-        $order = Order::find($orderId);
+        $order = Order::with([
+            'customer', 'details', 'delivery_address',
+        ])->find($orderId);
 
         // Set the page size and orientation options
         $options = ['page-size' => 'A4', 'orientation' => 'portrait'];
 
-        $pdf = PDF::loadView('admin-views.order.invoice-2', $order, [], $options);
+        $pdf = resolve(PDF::class)->loadView('admin-views.order.print-pdf', ['order' => $order], $options);
 
         $fileName = 'invoice-' . $order->id . '.pdf';
-        $filePath = storage_path('app/invoices/pdf/' . $fileName);
-        file_put_contents($filePath, $pdf->output());
+        $pdf->save(storage_path('app/public/invoices/pdf/') . $fileName);
 
         // Create a temporary URL for the PDF file
         $publicUrl = url('invoices/pdf/' . $fileName);
