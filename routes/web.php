@@ -57,6 +57,13 @@ Route::post('/cancel', 'SslCommerzPaymentController@cancel');
 Route::post('/ipn', 'SslCommerzPaymentController@ipn');
 //SSLCOMMERZ END
 
+// twilio call xml
+Route::get('/twilio/call', function () {
+    $twiml = new Twilio\TwiML\VoiceResponse();
+    $twiml->say('Please pay my money. Please pay my money. Please pay my money.', ['voice' => 'alice']);
+    return response($twiml, 200)
+        ->header('Content-Type', 'application/xml');
+});
 
 /*paypal*/
 /*Route::get('/paypal', function (){return view('paypal-test');})->name('paypal');*/

@@ -39,7 +39,7 @@ class TwilioService
 
     public function sendMedia($to, $publicUrl)
     {
-        if( $this->config['status'] == 1 && $this->accountSid && $this->authToken && $this->twilioPhoneNumber ) {
+        if ($this->config['status'] == 1 && $this->accountSid && $this->authToken && $this->twilioPhoneNumber) {
 
             $client = new Client($this->accountSid, $this->authToken);
 
@@ -53,5 +53,19 @@ class TwilioService
             );
 
         }
+    }
+
+    public function call($from, $to, $url)
+    {
+        $client = new Client($this->accountSid, $this->authToken);
+
+        $client->calls->create(
+            $to,
+            $from,
+            [
+                'url' => $url,
+                'method' => 'GET',
+            ]
+        );
     }
 }
