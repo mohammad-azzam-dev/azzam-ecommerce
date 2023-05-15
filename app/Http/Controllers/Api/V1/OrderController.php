@@ -212,9 +212,9 @@ class OrderController extends Controller
                 $link
             );
 
-            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
-//            self::send_invoice_pdf_to_user($o_id);
+            self::send_invoice_pdf_to_user($o_id);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -223,7 +223,7 @@ class OrderController extends Controller
 
             /*Mail::to($email)->send(new \App\Mail\OrderPlaced($o_id));*/
         } catch (\Exception $e) {
-            return response()->json([$e], 403);
+            return response()->json([$e->getMessage()], 403);
         }
     }
 
