@@ -360,7 +360,13 @@ class OrderController extends Controller
         // Set the page size and orientation options
         $options = ['page-size' => 'A4', 'orientation' => 'portrait'];
 
-        $pdf = resolve(PDF::class)->loadView('admin-views.order.print-pdf', ['order' => $order], $options);
+//        $pdf = resolve(PDF::class)->loadView('admin-views.order.print-pdf', ['order' => $order], $options);
+
+        $invoiceContent = view('admin-views.order.print-pdf', compact('order'))->render();
+
+        // Generate PDF from the invoice view
+        $pdf = resolve(PDF::class)->loadHTML($invoiceContent);
+        $pdf->setPaper('A4');
 
         $fileName = 'invoice-' . $order->id . '.pdf';
         $pdf->save(storage_path('app/public/invoices/pdf/') . $fileName);
