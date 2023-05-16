@@ -212,9 +212,9 @@ class OrderController extends Controller
                 $link
             );
 
-            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
-//            self::send_invoice_pdf_to_user($o_id);
+            self::send_invoice_pdf_to_user($o_id);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -370,7 +370,6 @@ class OrderController extends Controller
         $pdf = PDF::loadView('admin-views.order.print-pdf', [
             'order' => $order
         ]);
-        $pdf->getDomPdf()->set_option('defaultFont', 'OpenSans');;
 
         $fileName = 'invoice-' . $order->id . '.pdf';
         $pdf->save(storage_path('app/public/invoices/pdf/') . $fileName);
