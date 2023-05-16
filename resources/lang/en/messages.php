@@ -683,4 +683,6 @@
   'Update category' => 'Update category',
   'Addons Cost' => 'Addons Cost',
   'Product updated!' => 'Product updated!',
+  'Tax / VAT' => 'Tax / VAT',
+  'Order Type' => 'Order Type',
 );

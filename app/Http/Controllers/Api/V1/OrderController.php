@@ -18,11 +18,14 @@ use App\Model\Review;
 use App\Services\TwilioService;
 use Barryvdh\DomPDF\Facade as PDF;
 use Dompdf\Dompdf;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class OrderController extends Controller
 {
@@ -213,9 +216,9 @@ class OrderController extends Controller
                 $link
             );
 
-            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
-//            self::send_invoice_pdf_to_user($o_id);
+            self::send_invoice_pdf_to_user($o_id);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -360,32 +363,55 @@ class OrderController extends Controller
             'customer', 'details', 'delivery_address',
         ])->find($orderId);
 
-        // Set the page size and orientation options
-        $options = ['page-size' => 'A4', 'orientation' => 'portrait'];
+        $html = self::invoiceCssContent($order);
 
-//        $pdf = resolve(PDF::class)->loadView('admin-views.order.print-pdf', ['order' => $order], $options);
+        $pdf = new Dompdf();
+        $pdf->loadHtml($html);
+        $pdf->setPaper('A4');
+        $pdf->render();
 
-        $invoiceContent = view('admin-views.order.print-pdf', compact('order'))->render();
-
-        // Generate PDF from the invoice view
-        $pdf = PDF::loadView('admin-views.order.print-pdf', [
-            'order' => $order
-        ]);
-
-        $directory = public_path('storage/invoices/pdf');
         $fileName = 'invoice-' . $order->id . '.pdf';
-
-        // Check if the directory exists, create it if it doesn't
-        if (!File::exists($directory)) {
-            File::makeDirectory($directory, 0755, true, true);
-        }
-
-        $pdf->save($directory . '/' . $fileName);
+        $path = 'storage/invoices/pdf/' . $fileName;
+        Storage::put($path, $pdf->output());
 
         // Create a temporary URL for the PDF file
         $publicUrl = asset('public/storage/invoices/pdf/' . $fileName);
 
         $twilioService = new TwilioService();
         $twilioService->sendMedia($order->customer->phone, $publicUrl);
+    }
+
+    public static function invoiceCssContent($order)
+    {
+        $client = new Client();
+
+        $cssUrls = [
+            'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap',
+            asset('public/assets/admin') . '/css/vendor.min.css',
+            asset('public/assets/admin') . '/vendor/icon-set/style.css',
+            asset('public/assets/admin') . '/css/theme.minc619.css?v=1.0',
+        ];
+
+        $cssContent = '';
+
+        foreach ($cssUrls as $cssUrl) {
+            $response = $client->get($cssUrl);
+            $cssContent .= $response->getBody()->getContents();
+        }
+
+        // Render the Laravel view
+        $viewData = [
+            'order' => $order,
+        ];
+        $viewContent = View::make('admin-views.order.print-invoice-pdf', $viewData)->render();
+
+        // Inline the CSS and view content within the HTML
+        $html = '<html><head>';
+        $html .= '<style>' . $cssContent . '</style>';
+        $html .= '</head><body>';
+        $html .= $viewContent;
+        $html .= '</body></html>';
+
+        return $html;
     }
 }
