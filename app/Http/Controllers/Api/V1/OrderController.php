@@ -403,7 +403,7 @@ class OrderController extends Controller
         $viewData = [
             'order' => $order,
         ];
-        $viewContent = View::make('admin-views.order.print-invoice-pdf', $viewData)->render();
+        $viewContent = view('admin-views.order.print-invoice-pdf', $viewData)->render();
 
         // Inline the CSS and view content within the HTML
         $html = '<html><head>';
