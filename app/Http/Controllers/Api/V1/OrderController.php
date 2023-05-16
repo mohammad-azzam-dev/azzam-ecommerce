@@ -20,6 +20,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -212,9 +213,9 @@ class OrderController extends Controller
                 $link
             );
 
-            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
-//            self::send_invoice_pdf_to_user($o_id);
+            self::send_invoice_pdf_to_user($o_id);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -371,8 +372,15 @@ class OrderController extends Controller
             'order' => $order
         ]);
 
+        $directory = public_path('storage/invoices/pdf');
         $fileName = 'invoice-' . $order->id . '.pdf';
-        $pdf->save(storage_path('app/public/invoices/pdf/') . $fileName);
+
+        // Check if the directory exists, create it if it doesn't
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0755, true, true);
+        }
+
+        $pdf->save($directory . '/' . $fileName);
 
         // Create a temporary URL for the PDF file
         $publicUrl = url('invoices/pdf/' . $fileName);
