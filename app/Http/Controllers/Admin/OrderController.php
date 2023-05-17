@@ -343,4 +343,10 @@ class OrderController extends Controller
         return $message;
     }
 
+    public function test($id)
+    {
+        $order = Order::where('id', $id)->first();
+        return view('admin-views.order.print-invoice-pdf', compact('order'));
+    }
+
 }

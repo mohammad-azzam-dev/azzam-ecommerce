@@ -156,6 +156,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('generate-invoice/{id}', 'OrderController@generate_invoice')->name('generate-invoice');
             Route::post('add-payment-ref-code/{id}', 'OrderController@add_payment_ref_code')->name('add-payment-ref-code');
             Route::get('branch-filter/{branch_id}', 'OrderController@branch_filter')->name('branch-filter');
+
+            Route::get('test/{id}', 'OrderController@test')->name('test-invoice-view');
         });
 
         Route::group(['prefix' => 'order', 'as' => 'order.'], function () {

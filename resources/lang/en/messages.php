@@ -685,4 +685,10 @@
   'Product updated!' => 'Product updated!',
   'Tax / VAT' => 'Tax / VAT',
   'Order Type' => 'Order Type',
+  'Reference Code' => 'Reference Code',
+  'Delivery Address' => 'Delivery Address',
+  'Payment Method' => 'Payment Method',
+  'Invoice' => 'Invoice',
+  'cash on delivery' => 'Cash on delivery',
+  'Products' => 'Products',
 );
