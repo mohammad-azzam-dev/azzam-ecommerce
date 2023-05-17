@@ -1,221 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        <title>A simple, clean, and responsive HTML invoice template</title>
 
-<body class="footer-offset">
+        <!-- Favicon -->
+    {{--    <link rel="icon" href="./images/favicon.png" type="image/x-icon" />--}}
 
-<main id="content" role="main" class="main pointer-event">
-    <div class="content container-fluid">
-        <div class="row">
-            <div class="col-6">
+        <!-- Invoice styling -->
+        <style>
+            body {
+                font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: #777;
+            }
 
-            </div>
-            <div class="col-6">
-                <h2 class="float-right">{{ translate('#INVOICE') }}</h2>
-            </div>
+            body h1 {
+                font-weight: 300;
+                margin-bottom: 0px;
+                padding-bottom: 0px;
+                color: #000;
+            }
+
+            body h3 {
+                font-weight: 300;
+                margin-top: 10px;
+                margin-bottom: 20px;
+                font-style: italic;
+                color: #555;
+            }
+
+            body a {
+                color: #06f;
+            }
+
+            .invoice-box {
+                max-width: 800px;
+                margin: auto;
+                padding: 30px;
+                border: 1px solid #eee;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+                font-size: 16px;
+                line-height: 24px;
+                font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+                color: #555;
+            }
+
+            .invoice-box table {
+                width: 100%;
+                line-height: inherit;
+                text-align: left;
+                border-collapse: collapse;
+            }
+
+            .invoice-box table td {
+                padding: 5px;
+                vertical-align: top;
+            }
+
+            .invoice-box table tr td:nth-child(2) {
+                text-align: right;
+            }
+
+            .invoice-box table tr.top table td {
+                padding-bottom: 20px;
+            }
+
+            .invoice-box table tr.top table td.title {
+                font-size: 45px;
+                line-height: 45px;
+                color: #333;
+            }
+
+            .invoice-box table tr.information table td {
+                padding-bottom: 40px;
+            }
+
+            .invoice-box table tr.heading td {
+                background: #eee;
+                border-bottom: 1px solid #ddd;
+                font-weight: bold;
+            }
+
+            .invoice-box table tr.details td {
+                padding-bottom: 20px;
+            }
+
+            .invoice-box table tr.item td {
+                border-bottom: 1px solid #eee;
+            }
+
+            .invoice-box table tr.item.last td {
+                border-bottom: none;
+            }
+
+            .invoice-box table tr.total td:nth-child(2) {
+                border-top: 2px solid #eee;
+                font-weight: bold;
+            }
+
+            @media only screen and (max-width: 600px) {
+                .invoice-box table tr.top table td {
+                    width: 100%;
+                    display: block;
+                    text-align: center;
+                }
+
+                .invoice-box table tr.information table td {
+                    width: 100%;
+                    display: block;
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="invoice-box">
+            <table>
+                <tr class="top">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td class="title">
+                                    <img src="./images/logo.png" alt="Company logo" style="width: 100%; max-width: 300px" />
+                                </td>
+
+                                <td>
+                                    Invoice #<br />
+                                    Order ID : {{ $order->id }}<br />
+                                    Customer Name : {{ $order->customer->f_name . " " . $order->customer->l_name }}<br />
+                                    Phone : {{ $order->customer->phone }}<br />
+                                    Delivery Address : {{ $order->delivery_address ? $order->delivery_address['address'] : '' }}<br />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr class="information">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td>
+                                    Phone : {{ \App\Model\BusinessSetting::where(['key'=>'phone'])->first()->value }}<br />
+                                    Email : {{ \App\Model\BusinessSetting::where(['key'=>'email_address'])->first()->value }}<br />
+                                    Address : {{ \App\Model\BusinessSetting::where(['key'=>'address'])->first()->value }}<br />
+                                </td>
+
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr class="heading">
+                    <td>Payment Method</td>
+
+                    <td>Check #</td>
+                </tr>
+
+                <tr class="details">
+                    <td>Check</td>
+
+                    <td>1000</td>
+                </tr>
+
+                <tr class="heading">
+                    <td>Item</td>
+
+                    <td>Price</td>
+                </tr>
+
+                <tr class="item">
+                    <td>Website design</td>
+
+                    <td>$300.00</td>
+                </tr>
+
+                <tr class="item">
+                    <td>Hosting (3 months)</td>
+
+                    <td>$75.00</td>
+                </tr>
+
+                <tr class="item last">
+                    <td>Domain name (1 year)</td>
+
+                    <td>$10.00</td>
+                </tr>
+
+                <tr class="total">
+                    <td></td>
+
+                    <td>Total: $385.00</td>
+                </tr>
+            </table>
         </div>
-
-        <div class="row">
-            <div class="col-4">
-                <img width="150"
-                     src="{{asset('storage/app/public/ecommerce')}}/{{\App\Model\BusinessSetting::where(['key'=>'logo'])->first()->value}}">
-                <br><br>
-                <strong>{{ translate('Phone') }} : {{\App\Model\BusinessSetting::where(['key'=>'phone'])->first()->value}}</strong><br>
-                <strong>{{ translate('Email') }} : {{\App\Model\BusinessSetting::where(['key'=>'email_address'])->first()->value}}</strong><br>
-                <strong>{{ translate('Address') }} : {{\App\Model\BusinessSetting::where(['key'=>'address'])->first()->value}}</strong><br><br>
-            </div>
-            <div class="col-4"></div>
-            <div class="col-4">
-                @if($order->customer)
-                    <strong class="float-right">{{ translate('Order ID') }} : {{$order['id']}}</strong><br>
-                    <strong class="float-right">{{ translate('Customer Name') }}
-                        : {{$order->customer['f_name'].' '.$order->customer['l_name']}}</strong><br>
-                    <strong class="float-right">{{ translate('Phone') }}
-                        : {{$order->customer['phone']}}</strong><br>
-                    <strong class="float-right">{{ translate('Delivery Address') }}
-                        : {{$order->delivery_address?$order->delivery_address['address']:''}}</strong><br>
-                @endif
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12 mb-3">
-                <!-- Card -->
-                <div class="card mb-3 mb-lg-5">
-                    <!-- Header -->
-                    <div class="card-header" style="display: block!important;">
-                        <div class="row">
-                            <div class="col-12 pb-2 border-bottom">
-                                <h4 class="card-header-title">
-                                    {{ translate('Order details') }}
-                                    <span
-                                        class="badge badge-soft-dark rounded-circle ml-1">{{$order->details->count()}}</span>
-                                </h4>
-                            </div>
-                            <div class="col-6 pt-2">
-                                <h6 style="color: #8a8a8a;">
-                                    {{ translate('Order Note') }} : {{$order['order_note']}}
-                                </h6>
-                            </div>
-                            <div class="col-6 pt-2">
-                                <div class="text-right">
-                                    <h6 class="text-capitalize" style="color: #8a8a8a;">
-                                        {{ translate('Payment Method') }} : {{str_replace('_',' ',$order['payment_method'])}}
-                                    </h6>
-                                    <h6 class="" style="color: #8a8a8a;">
-                                        @if($order['transaction_reference']==null)
-                                            {{ translate('Reference Code') }} :
-                                            <button class="btn btn-outline-primary btn-sm" data-toggle="modal"
-                                                    data-target=".bd-example-modal-sm">
-                                                {{ translate('Add') }}
-                                            </button>
-                                        @else
-                                            {{ translate('Reference Code') }} : {{$order['transaction_reference']}}
-                                        @endif
-                                    </h6>
-                                    <h6 class="text-capitalize" style="color: #8a8a8a;">{{ translate('Order Type') }}
-                                        : {{str_replace('_',' ',$order['order_type'])}}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Header -->
-
-                    <!-- Body -->
-                    <div class="card-body">
-                        @php($sub_total=0)
-                        @php($total_tax=0)
-                        @php($total_dis_on_pro=0)
-                        @php($add_ons_cost=0)
-                        @foreach($order->details as $detail)
-                            @if($detail->product)
-                                <!-- Media -->
-                                <div class="media">
-                                    <div class="avatar avatar-xl mr-3">
-                                        <img class="img-fluid"
-                                             src="{{asset('storage/app/public/product')}}/{{json_decode($detail->product['image'],true)[0]}}"
-                                             onerror="this.src='{{asset('public/assets/admin/img/160x160/img2.jpg')}}'"
-                                             alt="Image Description">
-                                    </div>
-
-                                    <div class="media-body">
-                                        <div class="row">
-                                            <div class="col-md-5 mb-3 mb-md-0">
-                                                <strong> {{$detail->product['name']}}</strong><br>
-
-                                                @if(count(json_decode($detail['variation'],true))>0)
-                                                    <strong><u>Variation : </u></strong>
-                                                    @foreach(json_decode($detail['variation'],true)[0] ?? json_decode($detail['variation'],true) as $key1 =>$variation)
-                                                        <div class="font-size-sm text-body">
-                                                            <span>{{$key1}} :  </span>
-                                                            <span class="font-weight-bold">{{$variation}}</span>
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-
-                                                @if( $detail->addons()->exists() )
-                                                    @foreach($detail->addons as $key2 => $addon)
-                                                        @if($key2==0)<strong><u>Addons : </u></strong>@endif
-                                                        <div class="font-size-sm text-body">
-                                                            <span>{{ $addon['addon_name'] }} :  </span>
-                                                            <span class="font-weight-bold">
-                                                                    {{ $addon['quantity'] }} x {{ $addon['price'] }} {{\App\CentralLogics\Helpers::currency_symbol()}}
-                                                                </span>
-                                                        </div>
-                                                        @php($add_ons_cost += $addon['price'] * $addon['quantity'])
-                                                    @endforeach
-                                                @endif
-                                            </div>
-
-                                            <div class="col col-md-2 align-self-center">
-                                                @if($detail['discount_on_product']!=0)
-                                                    <h5>
-                                                        <strike>
-                                                            {{--                                                            {{ \App\CentralLogics\Helpers::set_symbol(\App\CentralLogics\Helpers::variation_price(json_decode($detail['product_details'],true)[0] ,$detail['variation'])) }}--}}
-                                                        </strike>
-                                                    </h5>
-                                                @endif
-                                                <h6>{{ Helpers::set_symbol($detail['price']-$detail['discount_on_product']) }}</h6>
-                                            </div>
-                                            <div class="col col-md-2 align-self-center">
-                                                <h5>{{$detail['quantity']}} {{\App\CentralLogics\translate(''.$detail['unit'])}}</h5>
-                                            </div>
-
-                                            <div class="col col-md-3 align-self-center text-right">
-                                                @php($amount=($detail['price']-$detail['discount_on_product'])*$detail['quantity'])
-                                                <h5>{{ Helpers::set_symbol($amount) }}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @php($sub_total+=$amount)
-                                @php($total_tax+=$detail['tax_amount']*$detail['quantity'])
-                                <!-- End Media -->
-                                <hr>
-                            @endif
-                        @endforeach
-
-                        <div class="row justify-content-md-end mb-3">
-                            <div class="col-md-9 col-lg-8">
-                                <dl class="row text-sm-right">
-                                    <dt class="col-sm-6">{{ translate('Items Price') }}:</dt>
-                                    <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total) }}</dd>
-                                    <dt class="col-sm-6">{{ translate('Tax / VAT') }}:</dt>
-                                    <dd class="col-sm-6">{{ Helpers::set_symbol($total_tax) }}</dd>
-                                    <dt class="col-6">{{ translate('Addons Cost') }}:</dt>
-                                    <dd class="col-6">
-                                        {{Helpers::set_symbol($add_ons_cost) }}
-                                        <hr>
-                                    </dd>
-
-                                    <dt class="col-sm-6">{{ translate('Subtotal') }}:</dt>
-                                    <dd class="col-6">
-                                        {{Helpers::set_symbol($sub_total+$total_tax+$add_ons_cost) }}</dd>
-                                    <dt class="col-sm-6">{{ translate('Coupon Discount') }}:</dt>
-                                    <dd class="col-sm-6">
-                                        - {{ Helpers::set_symbol($order['coupon_discount_amount']) }}</dd>
-                                    <dt class="col-6">{{\App\CentralLogics\translate('Extra Discount')}}:</dt>
-                                    <dd class="col-6">
-                                        - {{ Helpers::set_symbol($order['extra_discount']) }}</dd>
-                                    <dt class="col-sm-6">{{ translate('Delivery Fee') }}:</dt>
-                                    <dd class="col-sm-6">
-                                        @if($order['order_type']=='self_pickup')
-                                            @php($del_c=0)
-                                        @else
-                                            @php($del_c=$order['delivery_charge'])
-                                        @endif
-                                        {{ Helpers::set_symbol($del_c) }}
-                                        <hr>
-                                    </dd>
-
-                                    <dt class="col-sm-6">{{ translate('Total') }}:</dt>
-                                    <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total+$del_c+$total_tax+$add_ons_cost-$order['coupon_discount_amount']-$order['extra_discount']) }}</dd>
-                                </dl>
-                                <!-- End Row -->
-                            </div>
-                        </div>
-                        <!-- End Row -->
-                    </div>
-                    <!-- End Body -->
-                </div>
-                <!-- End Card -->
-            </div>
-        </div>
-    </div>
-    <div class="footer">
-        <div class="row justify-content-between align-items-center">
-            <div class="col">
-                <p class="font-size-sm mb-0">
-                    &copy; {{\App\Model\BusinessSetting::where(['key'=>'restaurant_name'])->first()->value}}. <span
-                        class="d-none d-sm-inline-block">{{\App\Model\BusinessSetting::where(['key'=>'footer_text'])->first()->value}}</span>
-                </p>
-            </div>
-        </div>
-    </div>
-</main>
-
-<script src="{{asset('public/assets/admin')}}/js/demo.js"></script>
-<!-- JS Implementing Plugins -->
-<!-- JS Front -->
-<script src="{{asset('public/assets/admin')}}/js/vendor.min.js"></script>
-<script src="{{asset('public/assets/admin')}}/js/theme.min.js"></script>
-
-</body>
+    </body>
+</html>

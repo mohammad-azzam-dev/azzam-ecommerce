@@ -216,9 +216,9 @@ class OrderController extends Controller
                 $link
             );
 
-            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
-//            self::send_invoice_pdf_to_user($o_id);
+            self::send_invoice_pdf_to_user($o_id);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -363,19 +363,23 @@ class OrderController extends Controller
             'customer', 'details', 'delivery_address',
         ])->find($orderId);
 
-        $html = self::invoiceCssContent($order);
+        $html = '';
+//        $html = self::invoiceCssContent($order);
 
-        $pdf = new Dompdf();
-        $pdf->loadHtml($html);
-        $pdf->setPaper('A4');
-        $pdf->render();
+        $data = [];
+        $data['order'] = $order;
+
+        $view = 'admin-views.order.print-invoice-pdf';
+        $pdf = PDF::loadView($view, $data);
 
         $fileName = 'invoice-' . $order->id . '.pdf';
-        $path = 'storage/invoices/pdf/' . $fileName;
+        $path = 'public/storage/invoices/pdf/' . $fileName;
         Storage::put($path, $pdf->output());
 
         // Create a temporary URL for the PDF file
         $publicUrl = asset('public/storage/invoices/pdf/' . $fileName);
+
+        dd($publicUrl);
 
         $twilioService = new TwilioService();
         $twilioService->sendMedia($order->customer->phone, $publicUrl);
