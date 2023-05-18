@@ -382,10 +382,10 @@ class OrderController extends Controller
         $pdf->save($path);
 
         // Create a temporary URL for the PDF file
-        $publicUrl = asset('storage/invoices/pdf/' . $fileName);
+        $url = asset('storage/app/public/invoices/pdf/' . $fileName);
 
         $twilioService = new TwilioService();
-        $twilioService->sendMedia($order->customer->phone, $publicUrl);
+        $twilioService->sendMedia($order->customer->phone, $url);
     }
 
 }
