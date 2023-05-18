@@ -691,4 +691,5 @@
   'Invoice' => 'Invoice',
   'cash on delivery' => 'Cash on delivery',
   'Products' => 'Products',
+  'Email' => 'Email',
 );

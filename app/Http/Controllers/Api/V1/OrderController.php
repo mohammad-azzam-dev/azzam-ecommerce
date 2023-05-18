@@ -18,6 +18,7 @@ use App\Model\Review;
 use App\Services\TwilioService;
 use Barryvdh\DomPDF\Facade as PDF;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -373,13 +374,12 @@ class OrderController extends Controller
         $pdf = PDF::loadView($view, $data);
 
         $fileName = 'invoice-' . $order->id . '.pdf';
-        $path = 'public/storage/invoices/pdf/' . $fileName;
-        Storage::put($path, $pdf->output());
+        $path = storage_path('app/public/invoices/pdf/' . $fileName);
+
+        $pdf->save($path);
 
         // Create a temporary URL for the PDF file
-        $publicUrl = asset('public/storage/invoices/pdf/' . $fileName);
-
-        dd($publicUrl);
+        $publicUrl = asset('storage/invoices/pdf/' . $fileName);
 
         $twilioService = new TwilioService();
         $twilioService->sendMedia($order->customer->phone, $publicUrl);

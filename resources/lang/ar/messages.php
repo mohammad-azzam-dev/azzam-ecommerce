@@ -693,4 +693,6 @@
   'We will contact you soon.' => 'We will contact you soon.',
   'Order ID :' => 'Order ID :',
   'Your Order has been placed.' => 'Your Order has been placed.',
+  'Products' => 'Products',
+  'cash on delivery' => 'Cash on delivery',
 );

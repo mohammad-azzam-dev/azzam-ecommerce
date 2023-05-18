@@ -6,9 +6,6 @@
 
         <title>Invoice - {{ $order->customer->f_name . " " . $order->customer->l_name }}</title>
 
-        <!-- Favicon -->
-    {{--    <link rel="icon" href="./images/favicon.png" type="image/x-icon" />--}}
-
         <!-- Invoice styling -->
         <style>
             body {
