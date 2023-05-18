@@ -217,7 +217,7 @@ class OrderController extends Controller
                 $link
             );
 
-            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
             self::send_invoice_pdf_to_user($o_id);
 
