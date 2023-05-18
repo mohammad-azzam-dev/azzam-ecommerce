@@ -368,7 +368,12 @@ class OrderController extends Controller
         $data['order'] = $order;
 
         $view = 'admin-views.order.print-invoice-pdf';
-        $pdf = PDF::loadView($view, $data);
+        $pdf = PDF::setOptions([
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => true
+            ])
+            ->setPaper('A4', 'portrait')
+            ->loadView($view, $data);
 
         $fileName = 'invoice-' . $order->id . '.pdf';
         $path = storage_path('app/public/invoices/pdf/' . $fileName);

@@ -169,19 +169,19 @@
                         <table>
                             <tr>
                                 <td>
-                                    {{ translate('Phone') }} : {{ \App\Model\BusinessSetting::where(['key'=>'phone'])->first()->value }}<br />
-                                    {{ translate('Email') }} : {{ \App\Model\BusinessSetting::where(['key'=>'email_address'])->first()->value }}<br />
-                                    {{ translate('Address') }} : {{ \App\Model\BusinessSetting::where(['key'=>'address'])->first()->value }}<br />
+                                    Phone : {{ \App\Model\BusinessSetting::where(['key'=>'phone'])->first()->value }}<br />
+                                    Email : {{ \App\Model\BusinessSetting::where(['key'=>'email_address'])->first()->value }}<br />
+                                    Address : {{ \App\Model\BusinessSetting::where(['key'=>'address'])->first()->value }}<br />
                                 </td>
 
 
 
-                                <td class="customer-info">
-                                    {{ translate('Invoice') }} #<br />
-                                    {{ translate('Order ID') }} : {{ $order->id }}<br />
-                                    {{ translate('Customer Name') }} : {{ $order->customer->f_name . " " . $order->customer->l_name }}<br />
-                                    {{ translate('Phone') }} : {{ $order->customer->phone }}<br />
-                                    {{ translate('Delivery Address') }} : {{ $order->delivery_address ? $order->delivery_address['address'] : '' }}<br />
+                                <td class="customer-info" style="text-align: right;">
+                                    Invoice #<br />
+                                    Order ID : {{ $order->id }}<br />
+                                    Customer Name : {{ $order->customer->f_name . " " . $order->customer->l_name }}<br />
+                                    Phone : {{ $order->customer->phone }}<br />
+                                    Delivery Address : {{ $order->delivery_address ? $order->delivery_address['address'] : '' }}<br />
                                 </td>
 
                             </tr>
@@ -190,7 +190,7 @@
                 </tr>
 
                 <tr class="heading">
-                    <td>{{ translate('Order Details') }}</td>
+                    <td>Order Details</td>
 
                     <td></td>
                     <td></td>
@@ -198,33 +198,33 @@
 
                 </tr>
 
-                <tr class="details">
-                    <td>{{ translate('Payment Method') }}</td>
+                <tr>
+                    <td>Payment Method</td>
 
                     <td></td>
                     <td></td>
 
-                    <td> {{ translate(str_replace('_', ' ', $order['payment_method'])) }} </td>
+                    <td> {{ str_replace('_', ' ', $order['payment_method']) }} </td>
                 </tr>
 
-                <tr class="details">
+                <tr>
                     <td>Order Type</td>
 
                     <td></td>
                     <td></td>
 
-                    <td> {{ translate(str_replace('_', ' ', $order['order_type'])) }} </td>
+                    <td> {{ str_replace('_', ' ', $order['order_type']) }} </td>
                 </tr>
 
                 @php
-                    $reference = 'No Reference';
+                    $reference = 'No reference';
                     if( $order['transaction_reference'] ) {
                         $reference = $order['transaction_reference'];
                     }
                 @endphp
 
-                <tr class="details">
-                    <td>{{ translate('Reference Code') }}</td>
+                <tr>
+                    <td>Reference Code</td>
 
                     <td></td>
                     <td></td>
@@ -233,12 +233,12 @@
                 </tr>
 
                 <tr class="heading">
-                    <td>{{ translate('Products') }}</td>
+                    <td>Products</td>
 
-                    <td></td>
-                    <td>{{ translate('Quantity') }}</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
 
-                    <td class="customer-info">{{ translate('Price') }}</td>
+                    <td class="customer-info" style="text-align: right;">Total</td>
                 </tr>
 
                 @php
@@ -282,8 +282,8 @@
                                                 <div class="font-size-sm text-body">
                                                     <span>{{ $addon['addon_name'] }} :  </span>
                                                     <span class="font-weight-bold">
-                                                                    {{ $addon['quantity'] }} x {{ $addon['price'] }} {{\App\CentralLogics\Helpers::currency_symbol()}}
-                                                                </span>
+                                                        {{ $addon['quantity'] }} x {{ $addon['price'] }} {{\App\CentralLogics\Helpers::currency_code()}}
+                                                    </span>
                                                 </div>
                                                 @php($add_ons_cost += $addon['price'] * $addon['quantity'])
                                             @endforeach
@@ -295,14 +295,14 @@
                             </td>
 
                             <td>
-                                {{ Helpers::set_symbol($detail['price']-$detail['discount_on_product']) }}
+                                {{ Helpers::set_code($detail['price']-$detail['discount_on_product']) }}
                             </td>
                             <td>
-                                {{ $detail['quantity'] }} {{ \App\CentralLogics\translate(''.$detail['unit']) }}
+                                {{ $detail['quantity'] }} {{ $detail['unit'] }}
                             </td>
 
                             @php($amount=($detail['price']-$detail['discount_on_product'])*$detail['quantity'])
-                            <td class="customer-info">{{ Helpers::set_symbol($amount) }}</td>
+                            <td class="customer-info" style="text-align: right;">{{ Helpers::set_code($amount) }}</td>
                         </tr>
 
                         @php($sub_total+=$amount)
@@ -312,45 +312,38 @@
                 @endforeach
             </table>
 
-            <div class="row justify-content-md-end mb-3">
-                <div class="col-md-9 col-lg-8">
-                    <dl class="row text-sm-right">
-                        <dt class="col-sm-6">{{ translate('Items Price') }}:</dt>
-                        <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total) }}</dd>
-                        <dt class="col-sm-6">{{ translate('Tax / VAT') }}:</dt>
-                        <dd class="col-sm-6">{{ Helpers::set_symbol($total_tax) }}</dd>
-                        <dt class="col-6">{{ translate('Addons Cost') }}:</dt>
-                        <dd class="col-6">
-                            {{Helpers::set_symbol($add_ons_cost) }}
-                            <hr>
-                        </dd>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right;">
+                        <span style="display: block;">Items Price: {{ Helpers::set_code($sub_total) }}</span>
+                        <span style="display: block;">Tax / VAT : {{ Helpers::set_code($total_tax) }}</span>
+                        <span style="display: block;">Addons Cost: {{Helpers::set_code($add_ons_cost) }}</span>
+                        <hr>
+                        <span style="display: block;">Subtotal: {{Helpers::set_code($sub_total+$total_tax+$add_ons_cost) }}</span>
+                        <span style="display: block;">Coupon Discount: - {{ Helpers::set_code($order['coupon_discount_amount']) }}</span>
+                        <span style="display: block;">Extra Discount: - {{ Helpers::set_code($order['extra_discount']) }}</span>
+                        @if($order['order_type']=='self_pickup')
+                            @php($del_c=0)
+                        @else
+                            @php($del_c=$order['delivery_charge'])
+                        @endif
+                        <span style="display: block;">Delivery Fee: {{ Helpers::set_code($del_c) }}</span>
+                        <hr>
+                        <span style="display: block;">Total: {{ Helpers::set_code($sub_total+$del_c+$total_tax+$add_ons_cost-$order['coupon_discount_amount']-$order['extra_discount']) }}</span>
+                    </td>
+                </tr>
+            </table>
 
-                        <dt class="col-sm-6">{{ translate('Subtotal') }}:</dt>
-                        <dd class="col-6">
-                            {{Helpers::set_symbol($sub_total+$total_tax+$add_ons_cost) }}</dd>
-                        <dt class="col-sm-6">{{ translate('Coupon Discount') }}:</dt>
-                        <dd class="col-sm-6">
-                            - {{ Helpers::set_symbol($order['coupon_discount_amount']) }}</dd>
-                        <dt class="col-6">{{\App\CentralLogics\translate('Extra Discount')}}:</dt>
-                        <dd class="col-6">
-                            - {{ Helpers::set_symbol($order['extra_discount']) }}</dd>
-                        <dt class="col-sm-6">{{ translate('Delivery Fee') }}:</dt>
-                        <dd class="col-sm-6">
-                            @if($order['order_type']=='self_pickup')
-                                @php($del_c=0)
-                            @else
-                                @php($del_c=$order['delivery_charge'])
-                            @endif
-                            {{ Helpers::set_symbol($del_c) }}
-                            <hr>
-                        </dd>
-
-                        <dt class="col-sm-6">{{ translate('Total') }}:</dt>
-                        <dd class="col-sm-6">{{ Helpers::set_symbol($sub_total+$del_c+$total_tax+$add_ons_cost-$order['coupon_discount_amount']-$order['extra_discount']) }}</dd>
-                    </dl>
-                    <!-- End Row -->
+            <div class="footer" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="row">
+                    <div class="col" style="flex: 1;">
+                        <p class="font-size-sm mb-0" style="font-size: small; margin-bottom: 0;">
+                            &copy; <span class="restaurant-name" style="color: red;"></span>{{\App\Model\BusinessSetting::where(['key'=>'restaurant_name'])->first()->value}}. <span class="footer-text" style="font-weight: bold;"></span>
+                        </p>
+                    </div>
                 </div>
             </div>
+
         </div>
     </body>
 </html>

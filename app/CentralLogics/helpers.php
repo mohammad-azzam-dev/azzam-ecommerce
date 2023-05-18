@@ -153,7 +153,18 @@ class Helpers
         if (!is_null($position) && $position == 'left') {
             $string = self::currency_symbol() . '' . number_format($amount, 2);
         } else {
-            $string = number_format($amount, 2) . '' . self::currency_symbol();
+            $string = number_format($amount, 2) . ' ' . self::currency_symbol();
+        }
+        return $string;
+    }
+
+    public static function set_code($amount)
+    {
+        $position = Helpers::get_business_settings('currency_symbol_position');
+        if (!is_null($position) && $position == 'left') {
+            $string = self::currency_symbol() . '' . number_format($amount, 2);
+        } else {
+            $string = number_format($amount, 2) . ' ' . self::currency_code();
         }
         return $string;
     }
