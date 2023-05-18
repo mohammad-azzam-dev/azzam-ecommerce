@@ -364,9 +364,6 @@ class OrderController extends Controller
             'customer', 'details', 'delivery_address',
         ])->find($orderId);
 
-        $html = '';
-//        $html = self::invoiceCssContent($order);
-
         $data = [];
         $data['order'] = $order;
 
@@ -375,6 +372,12 @@ class OrderController extends Controller
 
         $fileName = 'invoice-' . $order->id . '.pdf';
         $path = storage_path('app/public/invoices/pdf/' . $fileName);
+
+        $directory = storage_path('app/public/invoices/pdf');
+
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0755, true, true);
+        }
 
         $pdf->save($path);
 
@@ -385,37 +388,4 @@ class OrderController extends Controller
         $twilioService->sendMedia($order->customer->phone, $publicUrl);
     }
 
-    public static function invoiceCssContent($order)
-    {
-        $client = new Client();
-
-        $cssUrls = [
-            'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap',
-            asset('public/assets/admin') . '/css/vendor.min.css',
-            asset('public/assets/admin') . '/vendor/icon-set/style.css',
-            asset('public/assets/admin') . '/css/theme.minc619.css?v=1.0',
-        ];
-
-        $cssContent = '';
-
-        foreach ($cssUrls as $cssUrl) {
-            $response = $client->get($cssUrl);
-            $cssContent .= $response->getBody()->getContents();
-        }
-
-        // Render the Laravel view
-        $viewData = [
-            'order' => $order,
-        ];
-        $viewContent = view('admin-views.order.print-invoice-pdf', $viewData)->render();
-
-        // Inline the CSS and view content within the HTML
-        $html = '<html><head>';
-        $html .= '<style>' . $cssContent . '</style>';
-        $html .= '</head><body>';
-        $html .= $viewContent;
-        $html .= '</body></html>';
-
-        return $html;
-    }
 }
