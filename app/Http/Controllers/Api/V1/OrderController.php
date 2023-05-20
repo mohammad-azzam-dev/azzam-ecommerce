@@ -217,9 +217,9 @@ class OrderController extends Controller
                 $link
             );
 
-            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
-            self::send_invoice_pdf_to_user($o_id);
+            self::sendInvoicePdfToAdminAndUser($o_id);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -356,7 +356,7 @@ class OrderController extends Controller
         ], 401);
     }
 
-    public static function send_invoice_pdf_to_user($orderId)
+    public static function sendInvoicePdfToAdminAndUser($orderId)
     {
         ini_set('max_execution_time', 560);
 
