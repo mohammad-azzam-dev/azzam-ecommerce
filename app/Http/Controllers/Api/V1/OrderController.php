@@ -389,8 +389,17 @@ class OrderController extends Controller
         // Create a temporary URL for the PDF file
         $url = asset('storage/app/public/invoices/pdf/' . $fileName);
 
+        $customer = $order->customer;
+
+        $message = "Hello $customer->f_name $customer->l_name,\n";
+        $message .= "Thank you for your order!\n";
+        $message .= "Here is your invoice.";
+
+        $admin = Admin::find(1);
+
         $twilioService = new TwilioService();
-        $twilioService->sendMedia($order->customer->phone, $url);
+        $twilioService->sendMedia($order->customer->phone, $url, $message);
+//        $twilioService->sendMedia($admin->phone, $url, $message);
     }
 
 }

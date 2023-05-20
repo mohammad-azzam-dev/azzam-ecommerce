@@ -37,7 +37,7 @@ class TwilioService
         }
     }
 
-    public function sendMedia($to, $publicUrl)
+    public function sendMedia($to, $publicUrl, $body)
     {
         if ($this->config['status'] == 1 && $this->accountSid && $this->authToken && $this->twilioPhoneNumber) {
 
@@ -47,7 +47,7 @@ class TwilioService
                 "whatsapp:$to",
                 [
                     'from' => "whatsapp:{$this->twilioPhoneNumber}",
-                    'body' => 'Here is your invoice',
+                    'body' => $body,
                     'mediaUrl' => $publicUrl
                 ]
             );
