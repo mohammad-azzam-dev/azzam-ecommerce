@@ -217,7 +217,7 @@ class OrderController extends Controller
                 $link
             );
 
-//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
             self::sendInvoicePdfToAdminAndUser($o_id);
 
@@ -387,8 +387,7 @@ class OrderController extends Controller
         $pdf->save($path);
 
         // Create a temporary URL for the PDF file
-//        $url = asset('storage/app/public/invoices/pdf/' . $fileName);
-        $url = asset('storage/app/public/invoices/pdf/invoice-100060.pdf');
+        $url = asset('storage/app/public/invoices/pdf/' . $fileName);
 
         $customer = $order->customer;
 
