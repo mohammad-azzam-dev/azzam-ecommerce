@@ -37,7 +37,7 @@ class TwilioService
         }
     }
 
-    public function sendMedia($to, $publicUrl, $body)
+    public function sendMedia($to, $name)
     {
         if ($this->config['status'] == 1 && $this->accountSid && $this->authToken && $this->twilioPhoneNumber) {
 
@@ -47,8 +47,11 @@ class TwilioService
                 "whatsapp:$to",
                 [
                     'from' => "whatsapp:{$this->twilioPhoneNumber}",
-                    'body' => $body,
-                    'mediaUrl' => $publicUrl
+                    "messagingServiceSid" => "MG8eeba5bab30b39434afbb8a2b6dddbde",
+                    "contentSid" => "HX707b36b6bfb99763fbb47b23c6cab690",
+                    "contentVariables" => json_encode([
+                        "1" => $name,
+                    ]),
                 ]
             );
 
