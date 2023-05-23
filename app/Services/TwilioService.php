@@ -37,7 +37,7 @@ class TwilioService
         }
     }
 
-    public function sendMedia($to, $name)
+    public function sendMedia($to, $name, $body)
     {
         if ($this->config['status'] == 1 && $this->accountSid && $this->authToken && $this->twilioPhoneNumber) {
 
@@ -52,6 +52,7 @@ class TwilioService
                     "contentVariables" => json_encode([
                         "1" => $name,
                     ]),
+                    "body" => $body,
                 ]
             );
 

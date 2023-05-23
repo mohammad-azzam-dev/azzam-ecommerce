@@ -395,8 +395,12 @@ class OrderController extends Controller
 
         $admin = Admin::find(1);
 
+        $body = "Hello $customer->f_name $customer->l_name,\n";
+        $body .= "Thank you for your order!\n";
+        $body .= "Here is your invoice.";
+
         $twilioService = new TwilioService();
-        $twilioService->sendMedia($order->customer->phone, $userName);
+        $twilioService->sendMedia($order->customer->phone, $userName, $body);
 //        $twilioService->sendMedia($admin->phone, $url, $message);
     }
 
