@@ -217,9 +217,9 @@ class OrderController extends Controller
                 $link
             );
 
-//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
-            self::sendInvoicePdfToAdminAndUser($o_id);
+//            self::sendInvoicePdfToAdminAndUser($o_id);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
