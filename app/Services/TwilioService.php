@@ -46,13 +46,12 @@ class TwilioService
             $client->messages->create(
                 "whatsapp:$to",
                 [
-                    'from' => "whatsapp:{$this->twilioPhoneNumber}",
                     "messagingServiceSid" => "MG8eeba5bab30b39434afbb8a2b6dddbde",
+                    'from' => "whatsapp:{$this->twilioPhoneNumber}",
                     "contentSid" => "HX707b36b6bfb99763fbb47b23c6cab690",
                     "contentVariables" => json_encode([
                         "1" => $name,
                     ]),
-                    "body" => $body,
                 ]
             );
 
