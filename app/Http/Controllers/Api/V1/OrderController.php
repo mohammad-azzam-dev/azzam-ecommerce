@@ -217,9 +217,9 @@ class OrderController extends Controller
                 $link
             );
 
-            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
+//            $twilioService->sendWhatsAppMessage($adminPhoneNumber, $adminMessage);
 
-//            self::sendInvoicePdfToAdminAndUser($o_id);
+            self::sendInvoicePdfToAdminAndUser($o_id);
 
             return response()->json([
                 'message' => 'Order placed successfully!',
@@ -395,12 +395,8 @@ class OrderController extends Controller
 
         $admin = Admin::find(1);
 
-        $body = "Hello $customer->f_name $customer->l_name,\n";
-        $body .= "Thank you for your order!\n";
-        $body .= "Here is your invoice.";
-
         $twilioService = new TwilioService();
-        $twilioService->sendMedia($order->customer->phone, $userName, $body);
+        $twilioService->sendMedia($order->customer->phone, $userName, $fileName);
 //        $twilioService->sendMedia($admin->phone, $url, $message);
     }
 

@@ -37,7 +37,7 @@ class TwilioService
         }
     }
 
-    public function sendMedia($to, $name, $body)
+    public function sendMedia($to, $userName, $fileName)
     {
         if ($this->config['status'] == 1 && $this->accountSid && $this->authToken && $this->twilioPhoneNumber) {
 
@@ -48,9 +48,10 @@ class TwilioService
                 [
                     "messagingServiceSid" => "MG8eeba5bab30b39434afbb8a2b6dddbde",
                     'from' => "whatsapp:{$this->twilioPhoneNumber}",
-                    "contentSid" => "HX707b36b6bfb99763fbb47b23c6cab690",
+                    "contentSid" => "HX9533c5d4bad900995302cf3d73a91d72",
                     "contentVariables" => json_encode([
-                        "1" => $name,
+                        "1" => $fileName,
+                        "2" => $userName,
                     ]),
                 ]
             );
