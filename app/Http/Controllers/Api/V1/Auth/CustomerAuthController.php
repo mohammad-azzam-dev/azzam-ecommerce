@@ -140,7 +140,7 @@ class CustomerAuthController extends Controller
         $validator = Validator::make($request->all(), [
             'f_name' => 'required',
             'l_name' => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'nullable|unique:users',
             'phone' => 'required|unique:users',
             'password' => 'required|min:6',
         ], [

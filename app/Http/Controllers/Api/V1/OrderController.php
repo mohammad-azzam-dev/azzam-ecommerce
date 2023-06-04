@@ -186,7 +186,7 @@ class OrderController extends Controller
                 }
 
                 //send email
-                Mail::to($request->user()->email)->send(new \App\Mail\OrderPlaced($o_id));
+//                Mail::to($request->user()->email)->send(new \App\Mail\OrderPlaced($o_id));
 
             } catch (\Exception $e) {
             }

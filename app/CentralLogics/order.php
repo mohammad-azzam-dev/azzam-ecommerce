@@ -58,7 +58,7 @@ class OrderLogic
                 DB::table('order_details')->insert($or_d);
             }
 
-            Mail::to($email)->send(new \App\Mail\OrderPlaced($o_id));
+//            Mail::to($email)->send(new \App\Mail\OrderPlaced($o_id));
         } catch (\Exception $e) {
 
         }
