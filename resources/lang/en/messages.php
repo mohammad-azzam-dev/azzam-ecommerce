@@ -692,4 +692,10 @@
   'cash on delivery' => 'Cash on delivery',
   'Products' => 'Products',
   'Email' => 'Email',
+  'Category status updated!' => 'Category status updated!',
+  'Sub Category removed!' => 'Sub Category removed!',
+  'Variant Price' => 'Variant Price',
+  'Variant' => 'Variant',
+  'Settings updated!' => 'Settings updated!',
+  'Category updated successfully!' => 'Category updated successfully!',
 );
